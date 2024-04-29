@@ -16,7 +16,7 @@ class Admin(BaseModel, Base):
     first_name = Column(String(128), nullable=False)
     last_name = Column(String(128), nullable=False)
     school_id = Column(String(60), ForeignKey('schools.id'), nullable=False)
-    school = relationship('School', back_populates='admins')
+    
 
     def __init__(self, *args, **kwargs):
         """initializes the admin"""

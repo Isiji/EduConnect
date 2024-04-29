@@ -1,7 +1,5 @@
-#!/usr/bin/python3
-"""This module contains the BaseModel class"""
-import uuid
 from datetime import datetime
+import uuid
 import models
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, DateTime
@@ -53,7 +51,6 @@ class BaseModel:
         if "_sa_instance_state" in new_dict:
             del new_dict["_sa_instance_state"]
         return new_dict
-    
 
     def delete(self):
         """This method deletes the current instance from the storage"""
@@ -64,8 +61,3 @@ class BaseModel:
         """This method returns a string representation of an instance"""
         return "[{}] ({}) {}".format(
             self.__class__.__name__, self.id, self.__dict__)
-    
-    def __setattr__(self, name, value):
-        """This method sets the value of an attribute"""
-        self.__dict__[name] = value
-        self.save()

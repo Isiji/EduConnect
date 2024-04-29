@@ -11,13 +11,12 @@ Base = declarative_base()
 class Teacher(BaseModel, Base):
     """Teacher model"""
     __tablename__ = 'teachers'
+    id = Column(String(60), nullable=False, primary_key=True, unique=True)
     first_name = Column(String(128), nullable=False)
     last_name = Column(String(128), nullable=False)
     email = Column(String(128), nullable=False)
     password = Column(String(128), nullable=False)
     school_id = Column(String(60), ForeignKey('schools.id'), nullable=False)
-    school = relationship('School', back_populates='teachers')
-    classes = relationship('Class', back_populates='teacher')
 
     def __init__(self, *args, **kwargs):
         """initializes the teacher"""

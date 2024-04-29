@@ -11,13 +11,11 @@ Base = declarative_base()
 class Assignment(BaseModel, Base):
     """Assignment model"""
     __tablename__ = 'assignments'
+    id = Column(String(15), nullable=False, primary_key=True, unique=True)
     name = Column(String(128), nullable=False)
     subject_id = Column(String(60), ForeignKey('subjects.id'), nullable=False)
-    subject = relationship('Subject', back_populates='assignments')
     teacher_id = Column(String(60), ForeignKey('teachers.id'), nullable=False)
-    teacher = relationship('Teacher', back_populates='assignments')
     class_id = Column(String(60), ForeignKey('classes.id'), nullable=False)
-    class_ = relationship('Class', back_populates='assignments')
     due_date = Column(String(128), nullable=False)
     description = Column(String(128), nullable=False)
 

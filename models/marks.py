@@ -12,9 +12,7 @@ class Marks(BaseModel, Base):
     """Marks model"""
     __tablename__ = 'marks'
     student_id = Column(String(60), ForeignKey('students.id'), nullable=False)
-    student = relationship('Student', back_populates='marks')
     assignment_id = Column(String(60), ForeignKey('assignments.id'), nullable=False)
-    assignment = relationship('Assignment', back_populates='marks')
     grade = Column(String(128), nullable=False)
 
     def __init__(self, *args, **kwargs):
