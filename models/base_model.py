@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+"""Base model module for the base model"""
+import models.storage as storage
 from datetime import datetime
 import uuid
 import models
@@ -39,8 +42,8 @@ class BaseModel:
     def save(self):
         """This method updates the attribute updated_at with the current datetime"""
         self.updated_at = datetime.now()
-        models.storage.new(self)
-        models.storage.save()
+        storage.new(self)
+        storage.save()
 
     def to_dict(self):
         """This method returns a dictionary representation of an instance"""
@@ -54,8 +57,8 @@ class BaseModel:
 
     def delete(self):
         """This method deletes the current instance from the storage"""
-        models.storage.delete(self)
-        models.storage.save()
+        storage.delete(self)
+        storage.save()
 
     def __repr__(self):
         """This method returns a string representation of an instance"""

@@ -111,4 +111,3 @@ def get_class_name(cls):
     if cls not in ['Teacher', 'Student', 'School', 'Classroom', 'Parent', 'Subject']:
         return "** class doesn't exist **"
     return cls
-
