@@ -32,7 +32,7 @@ def create(cls):
     """Creates a new instance of a class"""
     if not cls:
         return "** class name missing **"
-    if cls not in ['Teacher', 'Student', 'School', 'Classroom', 'Parent', 'Subject']:
+    if cls not in [ 'Admin', 'Teacher', 'Student', 'School', 'Classroom', 'Parent', 'Subject']:
         return "** class doesn't exist **"
     new = eval(cls)()
     new.save()
@@ -43,7 +43,7 @@ def show(cls, id):
     """Prints the string representation of an instance"""
     if not cls:
         return "** class name missing **"
-    if cls not in ['Teacher', 'Student', 'School', 'Classroom', 'Parent', 'Subject']:
+    if cls not in ['Admin', 'Teacher', 'Student', 'School', 'Classroom', 'Parent', 'Subject']:
         return "** class doesn't exist **"
     if not id:
         return "** instance id missing **"
@@ -57,7 +57,7 @@ def delete(cls, id):
     """Deletes an instance based on the class name and id"""
     if not cls:
         return "** class name missing **"
-    if cls not in ['Teacher', 'Student', 'School', 'Classroom', 'Parent', 'Subject']:
+    if cls not in ['Admin','Teacher', 'Student', 'School', 'Classroom', 'Parent', 'Subject']:
         return "** class doesn't exist **"
     if not id:
         return "** instance id missing **"
@@ -73,7 +73,7 @@ def update(cls, id, attr, value):
     """Updates an instance based on the class name and id"""
     if not cls:
         return "** class name missing **"
-    if cls not in ['Teacher', 'Student', 'School', 'Classroom', 'Parent', 'Subject']:
+    if cls not in ['Admin''Teacher', 'Student', 'School', 'Classroom', 'Parent', 'Subject']:
         return "** class doesn't exist **"
     if not id:
         return "** instance id missing **"
@@ -90,7 +90,7 @@ def count(cls):
     """Counts the number of objects"""
     if not cls:
         return "** class name missing **"
-    if cls not in ['Teacher', 'Student', 'School', 'Classroom', 'Parent', 'Subject']:
+    if cls not in ['Admin''Teacher', 'Student', 'School', 'Classroom', 'Parent', 'Subject']:
         return "** class doesn't exist **"
     return len(storage.all(cls).values())
 
@@ -99,7 +99,7 @@ def get_class_name(cls):
     """Returns the class name"""
     if not cls:
         return "** class name missing **"
-    if cls not in ['Teacher', 'Student', 'School', 'Classroom', 'Parent', 'Subject']:
+    if cls not in ['Admin''Teacher', 'Student', 'School', 'Classroom', 'Parent', 'Subject']:
         return "** class doesn't exist **"
     return cls
 
@@ -108,6 +108,6 @@ def get_class_name(cls):
     """Returns the class name"""
     if not cls:
         return "** class name missing **"
-    if cls not in ['Teacher', 'Student', 'School', 'Classroom', 'Parent', 'Subject']:
+    if cls not in ['Admin''Teacher', 'Student', 'School', 'Classroom', 'Parent', 'Subject']:
         return "** class doesn't exist **"
     return cls
