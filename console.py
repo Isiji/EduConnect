@@ -2,7 +2,7 @@
 """this the main console for the school project"""
 import cmd
 import models
-from models.engine import storage
+from models.engine.storage import DBStorage
 import models.engine
 from models.teacher import Teacher
 from models.student import Student
