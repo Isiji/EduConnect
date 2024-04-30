@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """School module for the school model"""
-
+import models
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 from models.base_model import BaseModel, Base

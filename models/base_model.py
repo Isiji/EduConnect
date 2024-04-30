@@ -6,6 +6,8 @@ import models
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy import MetaData
+import models.engine
+import models.engine.storage
 
 time = "%Y-%m-%dT%H:%M:%S.%f"
 
