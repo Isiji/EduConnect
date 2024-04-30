@@ -19,6 +19,13 @@ class Student(BaseModel, Base):
     school_id = Column(String(60), ForeignKey('schools.id'), nullable=False)
     class_id = Column(String(60), ForeignKey('classes.id'), nullable=False)
     parent_id = Column(String(60), ForeignKey('parents.id'), nullable=False)
+    school = relationship("School", back_populates="students")
+    classroom = relationship("Classroom", back_populates="students")
+    parent = relationship("Parent", back_populates="students")
+    assignments = relationship("Assignment", back_populates="student")
+    subjects = relationship("Subject", back_populates="student")
+    
+
     def __init__(self, *args, **kwargs):
         """initializes the student"""
         super().__init__(*args, **kwargs)

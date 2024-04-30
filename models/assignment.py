@@ -18,6 +18,11 @@ class Assignment(BaseModel, Base):
     class_id = Column(String(60), ForeignKey('classes.id'), nullable=False)
     due_date = Column(String(128), nullable=False)
     description = Column(String(128), nullable=False)
+    subject = relationship("Subject", back_populates="assignments")
+    teacher = relationship("Teacher", back_populates="assignments")
+    classroom = relationship("Classroom", back_populates="assignments")
+    student = relationship("Student", back_populates="assignments")
+    
 
     def __init__(self, *args, **kwargs):
         """initializes the assignment"""

@@ -16,6 +16,10 @@ class Parent(BaseModel, Base):
     email = Column(String(128), nullable=False)
     password = Column(String(128), nullable=False)
     student_id = Column(String(60), ForeignKey('students.id'), nullable=False)
+    student = relationship("Student", back_populates="parent")
+    classroom = relationship("Classroom", back_populates="parent")
+    assignments = relationship("Assignment", back_populates="parent")
+
     
     def __init__(self, *args, **kwargs):
         """initializes the parent"""

@@ -3,7 +3,6 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
-import models
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
@@ -17,6 +16,11 @@ class Teacher(BaseModel, Base):
     email = Column(String(128), nullable=False)
     password = Column(String(128), nullable=False)
     school_id = Column(String(60), ForeignKey('schools.id'), nullable=False)
+    school = relationship("School", back_populates="teachers")
+    classrooms = relationship("Classroom", back_populates="teacher")
+    subjects = relationship("Subject", back_populates="teacher")
+    assignments = relationship("Assignment", back_populates="teacher")
+
 
     def __init__(self, *args, **kwargs):
         """initializes the teacher"""

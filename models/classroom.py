@@ -16,6 +16,13 @@ class Classroom(BaseModel, Base):
     name = Column(String(128), nullable=False)
     teacher_id = Column(String(60), ForeignKey('teachers.id'), nullable=False)
     school_id = Column(String(60), ForeignKey('schools.id'), nullable=False)
+    teacher = relationship("Teacher", back_populates="classrooms")
+    school = relationship("School", back_populates="classrooms")
+    students = relationship("Student", back_populates="classroom")
+    assignments = relationship("Assignment", back_populates="classroom")
+    subjects = relationship("Subject", back_populates="classroom")
+    parent = relationship("Parent", back_populates="classroom")
+
     def __init__(self, *args, **kwargs):
         """initializes the class"""
         super().__init__(*args, **kwargs)
