@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """Base model module for the base model"""
-import models.storage as storage
 from datetime import datetime
 import uuid
 import models
@@ -10,7 +9,7 @@ from sqlalchemy import MetaData
 
 time = "%Y-%m-%dT%H:%M:%S.%f"
 
-Base = declarative_base(metadata=MetaData())
+Base = declarative_base()
 
 class BaseModel:
     """This class defines common attributes/methods for other classes"""
@@ -19,48 +18,49 @@ class BaseModel:
     updated_at = Column(DateTime, default=datetime.utcnow())
 
     def __init__(self, *args, **kwargs):
-        """This method initializes an instance"""
+        """Initialization of the base model"""
         if kwargs:
             for key, value in kwargs.items():
-                if key == "created_at" or key == "updated_at":
-                    value = datetime.strptime(value, time)
                 if key != "__class__":
                     setattr(self, key, value)
-            if "id" not in kwargs:
-                setattr(self, "id", str(uuid.uuid4()))
-            time = "%Y-%m-%dT%H:%M:%S.%f"
-            if "created_at" not in kwargs:
-                setattr(self, "created_at", datetime.now())
-            if "updated_at" not in kwargs:
-                setattr(self, "updated_at", datetime.now())
+            if kwargs.get("created_at", None) and type(self.created_at) is str:
+                self.created_at = datetime.strptime(kwargs["created_at"], time)
+            else:
+                self.created_at = datetime.utcnow()
+            if kwargs.get("updated_at", None) and type(self.updated_at) is str:
+                self.updated_at = datetime.strptime(kwargs["updated_at"], time)
+            else:
+                self.updated_at = datetime.utcnow()
+            if kwargs.get("id", None) is None:
+                self.id = str(uuid.uuid4())
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.utcnow()
+            self.updated_at = self.created_at
 
     def __str__(self):
-        """This method returns a string representation of an instance"""
-        return "[{}] ({}) {}".format(
-            self.__class__.__name__, self.id, self.__dict__)
-    
+        """String representation of the BaseModel class"""
+        return "[{:s}] ({:s}) {}".format(self.__class__.__name__, self.id,
+                                         self.__dict__)
+
     def save(self):
-        """This method updates the attribute updated_at with the current datetime"""
-        self.updated_at = datetime.now()
-        storage.new(self)
-        storage.save()
+        """updates the attribute 'updated_at' with the current datetime"""
+        self.updated_at = datetime.utcnow()
+        models.storage.new(self)
+        models.storage.save()
 
     def to_dict(self):
-        """This method returns a dictionary representation of an instance"""
-        new_dict = dict(self.__dict__)
+        """returns a dictionary containing all keys/values of the instance"""
+        new_dict = self.__dict__.copy()
+        if "created_at" in new_dict:
+            new_dict["created_at"] = new_dict["created_at"].strftime(time)
+        if "updated_at" in new_dict:
+            new_dict["updated_at"] = new_dict["updated_at"].strftime(time)
         new_dict["__class__"] = self.__class__.__name__
-        new_dict["created_at"] = self.created_at.isoformat()
-        new_dict["updated_at"] = self.updated_at.isoformat()
         if "_sa_instance_state" in new_dict:
             del new_dict["_sa_instance_state"]
         return new_dict
 
     def delete(self):
-        """This method deletes the current instance from the storage"""
-        storage.delete(self)
-        storage.save()
-
-    def __repr__(self):
-        """This method returns a string representation of an instance"""
-        return "[{}] ({}) {}".format(
-            self.__class__.__name__, self.id, self.__dict__)
+        """delete the current instance from the storage"""
+        models.storage.delete(self)

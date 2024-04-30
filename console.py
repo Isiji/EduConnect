@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """this the main console for the school project"""
 import cmd
+import models
 from models import storage
 from models.teacher import Teacher
 from models.student import Student
@@ -8,13 +9,15 @@ from models.classroom import Classroom
 from models.base_model import BaseModel
 from models.school import School
 from models.admin import Admin
-
 import shlex
+import builtins
+
+classes = {"Teacher": Teacher, "Student": Student, "School": School, "Classroom": Classroom} 
+
 
 class EduConnectCommand(cmd.Cmd):
     """Main console class"""
     prompt = '(EduConnect).. '
-    classes = {"Teacher": Teacher, "Student": Student, "School": School, "Classroom": Classroom} 
     # create for quiting
     def do_quit(self, arg):
         """Quit command to exit the program"""
@@ -35,86 +38,142 @@ class EduConnectCommand(cmd.Cmd):
         """Help command to display the help"""
         cmd.Cmd.do_help(self, arg)
 
+    def _key_value_parser(self, args):
+        """creates a dictionary from a list of strings"""
+        new_dict = {}
+        for arg in args:
+            if "=" in arg:
+                kvp = arg.split('=', 1)
+                key = kvp[0]
+                value = kvp[1]
+                if value[0] == value[-1] == '"':
+                    value = shlex.split(value)[0].replace('_', ' ')
+                else:
+                    try:
+                        value = int(value)
+                    except:
+                        try:
+                            value = float(value)
+                        except:
+                            continue
+                new_dict[key] = value
+        return new_dict
+
+
     #create for create
     def do_create(self, arg):
         """Creates a new instance of a class"""
-        if not arg:
+        args = arg.split()
+        if len(args) == 0:
             print("** class name missing **")
-        elif arg not in self.classes:
-            print("** class doesn't exist **")
+            return False
+        if args[0] in self.classes:
+            new_dict = self._key_value_parser(args[1:])
+            instance = self.classes[args[0]](**new_dict)
         else:
-            new = eval(arg)()
-            new.save()
-            print(new.id)
+            print("** class doesn't exist **")
+            return False
+        print(instance.id)
+        instance.save()
 
     #create for show
     def do_show(self, arg):
-        """Prints the string representation of an instance"""
-        args = arg.split()
-        if not arg:
+        """Prints an instance as a string based on the class and id"""
+        args = shlex.split(arg)
+        if len(args) == 0:
             print("** class name missing **")
-        elif args[0] not in self.classes:
-            print("** class doesn't exist **")
-        elif len(args) < 2:
-            print("** instance id missing **")
-        else:
-            key = "{}.{}".format(args[0], args[1])
-            if key not in storage.all():
-                print("** no instance found **")
+            return False
+        if args[0] in classes:
+            if len(args) > 1:
+                key = args[0] + "." + args[1]
+                if key in models.storage.all():
+                    print(models.storage.all()[key])
+                else:
+                    print("** no instance found **")
             else:
-                print(storage.all()[key])
+                print("** instance id missing **")
+        else:
+            print("** class doesn't exist **")
+
 
     #create for destroy
     def do_destroy(self, arg):
-        """Deletes an instance based on the class name and id"""
-        args = arg.split()
-        if not arg:
+        """Deletes an instance based on the class and id"""
+        args = shlex.split(arg)
+        if len(args) == 0:
             print("** class name missing **")
-        elif args[0] not in self.classes:
-            print("** class doesn't exist **")
-        elif len(args) < 2:
-            print("** instance id missing **")
-        else:
-            key = "{}.{}".format(args[0], args[1])
-            if key not in storage.all():
-                print("** no instance found **")
+        elif args[0] in classes:
+            if len(args) > 1:
+                key = args[0] + "." + args[1]
+                if key in models.storage.all():
+                    models.storage.all().pop(key)
+                    models.storage.save()
+                else:
+                    print("** no instance found **")
             else:
-                del storage.all()[key]
-                storage.save()
+                print("** instance id missing **")
+        else:
+            print("** class doesn't exist **")
+
 
     #create for all
     def do_all(self, arg):
-        """Prints all instances of a class"""
-        args = arg.split()
-        if not arg:
-            print([str(obj) for obj in storage.all().values()])
-        elif args[0] not in self.classes:
-            print("** class doesn't exist **")
+        """Prints string representations of instances"""
+        args = shlex.split(arg)
+        obj_list = []
+        if len(args) == 0:
+            obj_dict = models.storage.all()
+        elif args[0] in classes:
+            obj_dict = models.storage.all(classes[args[0]])
         else:
-            print([str(obj) for obj in storage.all(eval(args[0])).values()])
+            print("** class doesn't exist **")
+            return False
+        for key in obj_dict:
+            obj_list.append(str(obj_dict[key]))
+        print("[", end="")
+        print(", ".join(obj_list), end="")
+        print("]")
+
 
     #create for update
     def do_update(self, arg):
-        """Updates an instance based on the class name and id"""
-        args = arg.split()
-        if not arg:
+        """Update an instance based on the class name, id, attribute & value"""
+        args = shlex.split(arg)
+        integers = ["number_rooms", "number_bathrooms", "max_guest",
+                    "price_by_night"]
+        floats = ["latitude", "longitude"]
+        if len(args) == 0:
             print("** class name missing **")
-        elif args[0] not in self.classes:
-            print("** class doesn't exist **")
-        elif len(args) < 2:
-            print("** instance id missing **")
-        elif len(args) < 3:
-            print("** attribute name missing **")
-        elif len(args) < 4:
-            print("** value missing **")
-        else:
-            key = "{}.{}".format(args[0], args[1])
-            if key not in storage.all():
-                print("** no instance found **")
+        elif args[0] in classes:
+            if len(args) > 1:
+                k = args[0] + "." + args[1]
+                if k in models.storage.all():
+                    if len(args) > 2:
+                        if len(args) > 3:
+                            if args[0] == "Place":
+                                if args[2] in integers:
+                                    try:
+                                        args[3] = int(args[3])
+                                    except:
+                                        args[3] = 0
+                                elif args[2] in floats:
+                                    try:
+                                        args[3] = float(args[3])
+                                    except:
+                                        args[3] = 0.0
+                            setattr(models.storage.all()[k], args[2], args[3])
+                            models.storage.all()[k].save()
+                        else:
+                            print("** value missing **")
+                    else:
+                        print("** attribute name missing **")
+                else:
+                    print("** no instance found **")
             else:
-                obj = storage.all()[key]
-                setattr(obj, args[2], args[3])
-                obj.save()
+                print("** instance id missing **")
+        else:
+            print("** class doesn't exist **")
+
 
 if __name__ == '__main__':
     EduConnectCommand().cmdloop()
