@@ -3,6 +3,7 @@
 import cmd
 import models
 from models.engine import storage
+import models.engine
 from models.teacher import Teacher
 from models.student import Student
 from models.classroom import Classroom
@@ -90,8 +91,8 @@ class EduConnectCommand(cmd.Cmd):
         if args[0] in self.classes:
             if len(args) > 1:
                 key = args[0] + "." + args[1]
-                if key in models.storage.all():
-                    print(models.storage.all()[key])
+                if key in models.engine.storage.all():
+                    print(models.engine.storage.all()[key])
                 else:
                     print("** no instance found **")
             else:
@@ -109,9 +110,9 @@ class EduConnectCommand(cmd.Cmd):
         elif args[0] in self.classes:
             if len(args) > 1:
                 key = args[0] + "." + args[1]
-                if key in models.storage.all():
-                    models.storage.all().pop(key)
-                    models.storage.save()
+                if key in models.engine.storage.all():
+                    models.engine.storage.all().pop(key)
+                    models.engine.storage.save()
                 else:
                     print("** no instance found **")
             else:
@@ -126,9 +127,9 @@ class EduConnectCommand(cmd.Cmd):
         args = shlex.split(arg)
         obj_list = []
         if len(args) == 0:
-            obj_dict = models.storage.all()
+            obj_dict = models.engine.storage.all()
         elif args[0] in self.classes:
-            obj_dict = models.storage.all(self.classes[args[0]])
+            obj_dict = models.engine.storage.all(self.classes[args[0]])
         else:
             print("** class doesn't exist **")
             return False
@@ -151,7 +152,7 @@ class EduConnectCommand(cmd.Cmd):
         elif args[0] in self.classes:
             if len(args) > 1:
                 k = args[0] + "." + args[1]
-                if k in models.storage.all():
+                if k in models.engine.storage.all():
                     if len(args) > 2:
                         if len(args) > 3:
                             if args[0] == "Place":
@@ -165,8 +166,8 @@ class EduConnectCommand(cmd.Cmd):
                                         args[3] = float(args[3])
                                     except:
                                         args[3] = 0.0
-                            setattr(models.storage.all()[k], args[2], args[3])
-                            models.storage.all()[k].save()
+                            setattr(models.engine.storage.all()[k], args[2], args[3])
+                            models.engine.storage.all()[k].save()
                         else:
                             print("** value missing **")
                     else:
