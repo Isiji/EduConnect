@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 """Teacher module for the teacher model"""
-
+from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
-from models.base_model import BaseModel, Base
+import models
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
