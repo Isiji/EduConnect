@@ -4,11 +4,11 @@
 from sqlalchemy import create_engine, Column, String, ForeignKey
 from sqlalchemy.orm import sessionmaker
 from models.base_model import BaseModel, Base
-from models.engine.storage import DBStorage
+import uuid
 class Student(BaseModel, Base):
     """Student model"""
     __tablename__ = 'students'
-    id = Column(String(25), nullable=False, primary_key=True, unique=True)
+    id = Column(String(10), nullable=False, primary_key=True, unique=True)
     first_name = Column(String(128), nullable=False)
     last_name = Column(String(128), nullable=False)
     email = Column(String(128), nullable=False)
@@ -27,8 +27,11 @@ class Student(BaseModel, Base):
     @staticmethod
     def register_student():
         """registers a student"""
+        from models.engine.storage import DBStorage
         db_storage = DBStorage()
+        short_id = str(uuid.uuid4())[:8]
         student = Student(
+            id = short_id,
             first_name = input("Enter first name: "),
             last_name = input("Enter last name: "),
             email = input("Enter email: "),
@@ -42,6 +45,7 @@ class Student(BaseModel, Base):
     @staticmethod
     def view_all_students():
         """view all students"""
+        from models.engine.storage import DBStorage
         db_storage = DBStorage()
         students = db_storage.all('Student')
         for student in students:
