@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 """Student module for the student model"""
 
-from sqlalchemy import Column, String, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import create_engine, Column, String, ForeignKey
+from sqlalchemy.orm import sessionmaker
 from models.base_model import BaseModel, Base
-
+from models.engine.storage import DBStorage
 class Student(BaseModel, Base):
     """Student model"""
     __tablename__ = 'students'
@@ -24,21 +24,26 @@ class Student(BaseModel, Base):
     def __str__(self):
         """string representation of the student"""
         return "Student: {} {}".format(self.first_name, self.last_name)
-    
-    def register_student(self):
+    @staticmethod
+    def register_student():
         """registers a student"""
-        self.first_name = input("Enter first name: ")
-        self.last_name = input("Enter last name: ")
-        self.email = input("Enter email: ")
-        self.password = input("Enter password: ")
-        self.school_id = input("Enter school id: ")
-        self.class_id = input("Enter class id: ")
-        self.save()
+        db_storage = DBStorage()
+        student = Student(
+            first_name = input("Enter first name: "),
+            last_name = input("Enter last name: "),
+            email = input("Enter email: "),
+            password = input("Enter password: "),
+            school_id = input("Enter school id: "),
+            class_id = input("Enter class id: "),
+        )
+        db_storage.new(student)
+        db_storage.save()
 
+    @staticmethod
     def view_all_students():
-        """views all students"""
-        all_students = Student.query.all()
-        for student in all_students:
+        """view all students"""
+        db_storage = DBStorage()
+        students = db_storage.all('Student')
+        for student in students:
             print(student)
-        return all_students
-    
+        return students
