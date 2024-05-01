@@ -4,13 +4,6 @@ import models
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 from models.base_model import BaseModel, Base
-from sqlalchemy.ext.declarative import declarative_base
-from models.admin import Admin
-from models.teacher import Teacher
-from models.student import Student
-from models.classroom import Classroom
-
-Base = declarative_base()
 
 class School(BaseModel, Base):
     """School model"""
@@ -23,11 +16,6 @@ class School(BaseModel, Base):
     phone = Column(String(128), nullable=False)
     email = Column(String(128), nullable=False)
     website = Column(String(128))
-    #admin_id = Column(String(15), ForeignKey('admins.id'), nullable=False)
-    #admin = relationship("Admin", back_populates="school")
-    teachers = relationship("Teacher", back_populates="school")
-    students = relationship("Student", back_populates="school")
-    classrooms = relationship("Classroom", back_populates="school")
 
 
 

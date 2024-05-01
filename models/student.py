@@ -4,9 +4,6 @@
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 from models.base_model import BaseModel, Base
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
 
 class Student(BaseModel, Base):
     """Student model"""
@@ -18,12 +15,6 @@ class Student(BaseModel, Base):
     password = Column(String(128), nullable=False)
     school_id = Column(String(60), ForeignKey('schools.id'), nullable=False)
     class_id = Column(String(60), ForeignKey('classes.id'), nullable=False)
-    parent_id = Column(String(60), ForeignKey('parents.id'), nullable=False)
-    school = relationship("School", back_populates="students")
-    classroom = relationship("Classroom", back_populates="students")
-    parent = relationship("Parent", back_populates="students")
-    assignments = relationship("Assignment", back_populates="student")
-    subjects = relationship("Subject", back_populates="student")
     
 
     def __init__(self, *args, **kwargs):

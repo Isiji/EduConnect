@@ -4,9 +4,6 @@
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 from models.base_model import BaseModel, Base
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
 
 class Marks(BaseModel, Base):
     """Marks model"""

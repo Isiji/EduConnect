@@ -4,9 +4,6 @@
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 from models.base_model import BaseModel, Base
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
 
 class Assignment(BaseModel, Base):
     """Assignment model"""
@@ -18,10 +15,6 @@ class Assignment(BaseModel, Base):
     class_id = Column(String(60), ForeignKey('classes.id'), nullable=False)
     due_date = Column(String(128), nullable=False)
     description = Column(String(128), nullable=False)
-    subject = relationship("Subject", back_populates="assignments")
-    teacher = relationship("Teacher", back_populates="assignments")
-    classroom = relationship("Classroom", back_populates="assignments")
-    student = relationship("Student", back_populates="assignments")
     
 
     def __init__(self, *args, **kwargs):

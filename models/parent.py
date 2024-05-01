@@ -4,21 +4,16 @@
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 from models.base_model import BaseModel, Base
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
 
 class Parent(BaseModel, Base):
     """Parent model"""
     __tablename__ = 'parents'
+    id = Column(String(25), nullable=False, primary_key=True, unique=True)
     first_name = Column(String(128), nullable=False)
     last_name = Column(String(128), nullable=False)
     email = Column(String(128), nullable=False)
     password = Column(String(128), nullable=False)
     student_id = Column(String(60), ForeignKey('students.id'), nullable=False)
-    student = relationship("Student", back_populates="parent")
-    classroom = relationship("Classroom", back_populates="parent")
-    assignments = relationship("Assignment", back_populates="parent")
 
     
     def __init__(self, *args, **kwargs):
