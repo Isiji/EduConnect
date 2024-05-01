@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Utility module for the models stores all the functions to be used in the models"""
 from models.engine import storage
-from models.admin import Admin
+from models.admin_model import Admin
 from models.teacher import Teacher
 from models.student import Student
 from models.school import School

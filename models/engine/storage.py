@@ -8,7 +8,7 @@ from models.teacher import Teacher
 from models.student import Student
 from models.school import School
 from models.classroom import Classroom
-from models.admin import Admin
+from models.admin_model import Admin
 import sys
 class DBStorage:
     """Database storage class"""

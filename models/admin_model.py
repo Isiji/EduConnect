@@ -13,7 +13,6 @@ class Admin(BaseModel, Base):
     password = Column(String(128), nullable=False)
     first_name = Column(String(128), nullable=False)
     last_name = Column(String(128), nullable=False)
-    school_id = Column(String(60), ForeignKey('schools.id'), nullable=False)
     
 
     def __init__(self, *args, **kwargs):
