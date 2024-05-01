@@ -24,3 +24,21 @@ class Student(BaseModel, Base):
     def __str__(self):
         """string representation of the student"""
         return "Student: {} {}".format(self.first_name, self.last_name)
+    
+    def register_student(self):
+        """registers a student"""
+        self.first_name = input("Enter first name: ")
+        self.last_name = input("Enter last name: ")
+        self.email = input("Enter email: ")
+        self.password = input("Enter password: ")
+        self.school_id = input("Enter school id: ")
+        self.class_id = input("Enter class id: ")
+        self.save()
+
+    def view_all_students():
+        """views all students"""
+        all_students = Student.query.all()
+        for student in all_students:
+            print(student)
+        return all_students
+    
