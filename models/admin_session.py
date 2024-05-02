@@ -6,7 +6,7 @@ from models.student import Student
 from models.teacher import Teacher
 from models.school import School
 from models.classroom import Classroom
-
+from models.login import login
 
 #create a function that enters into admin session and allows admin to do his functions
 def admin_session():
@@ -39,8 +39,8 @@ def admin_session():
             continue
 
         if choice == 0:
-            admin = Admin()
-            admin.login_admin()
+            login()
+
         elif choice == 1:
             admin = Admin()
             admin.register_admin()

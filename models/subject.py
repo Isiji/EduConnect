@@ -66,3 +66,14 @@ class Subject(BaseModel, Base):
         print("Subject not found")
 
         
+        #view subject by class
+    @staticmethod
+    def view_subjects_by_class():
+        """view all subjects by class"""
+        from models.engine.storage import DBStorage
+        db_storage = DBStorage()
+        class_id = input("Enter class id: ")
+        subjects = db_storage.all(Subject)
+        for subject in subjects.values():
+            if subject.class_id == class_id:
+                print(subject)

@@ -23,23 +23,6 @@ class Admin(BaseModel, Base):
         """string representation of the admin"""
         return "Admin: {} {}".format(self.first_name, self.last_name)
     
-    #create for admin login
-    @staticmethod
-    def login_admin():
-        """logs in an admin"""
-        from models.engine.storage import DBStorage
-        db_storage = DBStorage()
-
-        email = input("Enter email: ")
-        password = input("Enter password: ")
-
-        admins = db_storage.all('Admin')
-        for admin in admins:
-            if admin.email == email and admin.password == password:
-                print("Login successful")
-                return
-        print("Login failed. Incorrect email or password!")
-
     #create for admin registration
     @staticmethod
     def register_admin():

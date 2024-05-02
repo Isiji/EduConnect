@@ -51,3 +51,15 @@ class Student(BaseModel, Base):
         for student in students:
             print(student)
         return students
+    
+    #view students by class
+    @staticmethod
+    def view_students_by_class():
+        """view all students by class"""
+        from models.engine.storage import DBStorage
+        db_storage = DBStorage()
+        class_id = input("Enter class id: ")
+        students = db_storage.all('Student')
+        for student in students:
+            if student.class_id == class_id:
+                print(student)
