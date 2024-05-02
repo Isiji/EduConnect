@@ -1,5 +1,5 @@
 {%extends 'layout.html'%}
-{%title block%} Admin Panel {%endblock%}
+{%block title%} Admin Panel {%endblock%}
 {%block content%}
     <h1>Admin Panel</h1>
     <p>Welcome to the  EduConnect admin panel!</p>
@@ -7,11 +7,11 @@
         <button onclick="registerAdmin()">Register a new admin </button>
         <button onclick="registerStudent()">Register a new student </button>
         <button onclick="registerTeacher()">Register a new teacher </button>
-        <button onclick="registerSchool()">Register a new School </button>
+        <button onclick="registerSchool()">Register a new School </button><br>
         <button onclick="registerClassroom()">Register a new Classroom </button>
         <button onclick="viewAllStudents()">View all students</button>
         <button onclick="viewAllTeachers()">View all teachers</button>
-        <button onclick="viewAllSchools()">View all schools</button>
+        <button onclick="viewAllSchools()">View all schools</button><br>
         <button onclick="viewAllClassrooms()">View all classrooms</button>
         <button onclick="deleteStudent()">Delete student</button>
         <button onclick="deleteTeacher()">Delete teacher</button>
