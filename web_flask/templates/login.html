@@ -1,8 +1,8 @@
-{%extends%}
+{%extends 'layout.html'%}
 {%block title%}Login Page{%endblock%}
 {%block content%}
 <h1>Login</h1>
-<form action="/login" method="POST">
+<form action="/login" methods="POST">
     <div class="form-group">
         <label for="username">Username</label>
         <input type="text" class="form-control" id="username" name="username" placeholder="Enter username">
