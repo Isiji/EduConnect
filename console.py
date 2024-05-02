@@ -15,12 +15,21 @@ import shlex
 from models.admin_session import admin_session
 from models.teacher_session import teacher_session
 from models.student_session import student_session
+from models.parent_session import parent_session
 #classes = {"Teacher": Teacher, "Student": Student, "School": School, "Classroom": Classroom} 
 
 
 class EduConnectCommand(cmd.Cmd):
     """Main console class"""
     prompt = '(EduConnect).. '
+    print("Welcome to the EduConnect Console")
+    print("Type help to list commands")
+    print("Type quit to exit the console")
+    print("which account do you want to acces")
+    print("admin")
+    print("student")
+    print("teacher")
+    print("parent")
 
     def __init__(self):
         """Initialize the console"""
