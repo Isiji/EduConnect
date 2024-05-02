@@ -3,7 +3,7 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
-
+import uuid
 class Teacher(BaseModel, Base):
     """Teacher model"""
     __tablename__ = 'teachers'
@@ -22,3 +22,21 @@ class Teacher(BaseModel, Base):
     def __str__(self):
         """string representation of the teacher"""
         return "Teacher: {} {}".format(self.first_name, self.last_name)
+
+    @staticmethod
+    def register_teacher():
+        """registers a teacher"""
+        from models.engine.storage import DBStorage
+        db_storage = DBStorage()
+        short_id = str(uuid.uuid4())[:8]
+        
+        teacher = Teacher(
+            id = short_id,
+            first_name = input("Enter first name: "),
+            last_name = input("Enter last name: "),
+            email = input("Enter email: "),
+            password = input("Enter password: "),
+            school_id = input("Enter school id: ")
+        )
+        db_storage.new(teacher)
+        db_storage.save()

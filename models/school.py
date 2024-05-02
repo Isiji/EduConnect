@@ -4,7 +4,7 @@ import models
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 from models.base_model import BaseModel, Base
-
+import uuid
 class School(BaseModel, Base):
     """School model"""
     __tablename__ = 'schools'
@@ -28,3 +28,23 @@ class School(BaseModel, Base):
         return "School: {}".format(self.name)
     
     
+    @staticmethod
+    def register_school():
+        """registers a school"""
+        from models.engine.storage import DBStorage
+        db_storage = DBStorage()
+        short_id = str(uuid.uuid4())[:8]
+        school = School(
+            id = short_id,
+            name = input("Enter school name: "),
+            address = input("Enter school address: "),
+            city = input("Enter city: "),
+            county = input("Enter county: "),
+            phone = input("Enter phone: "),
+            email = input("Enter email: "),
+            website = input("Enter website: ")
+        )
+        db_storage.new(school)
+        db_storage.save()
+
+        print("School registered successfully")

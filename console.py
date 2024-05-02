@@ -4,6 +4,7 @@ import cmd
 import models
 from models.engine.storage import DBStorage
 import models.engine
+import models.engine.storage
 from models.teacher import Teacher
 from models.student import Student
 from models.classroom import Classroom
@@ -128,9 +129,9 @@ class EduConnectCommand(cmd.Cmd):
         args = shlex.split(arg)
         obj_list = []
         if len(args) == 0:
-            obj_dict = models.engine.DBStorage().all()
+            obj_dict = models.engine.storage.DBStorage().all()
         elif args[0] in self.classes:
-            obj_dict = models.engine.DBStorage().all(self.classes[args[0]])
+            obj_dict = models.engine.storage.DBStorage().all(self.classes[args[0]])
         else:
             print("** class doesn't exist **")
             return False
@@ -153,7 +154,7 @@ class EduConnectCommand(cmd.Cmd):
         elif args[0] in self.classes:
             if len(args) > 1:
                 k = args[0] + "." + args[1]
-                if k in models.engine.DBStorage().all():
+                if k in models.engine.storage.DBStorage().all():
                     if len(args) > 2:
                         if len(args) > 3:
                             if args[0] == "Place":
@@ -167,8 +168,8 @@ class EduConnectCommand(cmd.Cmd):
                                         args[3] = float(args[3])
                                     except:
                                         args[3] = 0.0
-                            setattr(models.engine.DBStorage().all()[k], args[2], args[3])
-                            models.engine.DBStorage().all()[k].save()
+                            setattr(models.engine.storage.DBStorage().all()[k], args[2], args[3])
+                            models.engine.storage.DBStorage().all()[k].save()
                         else:
                             print("** value missing **")
                     else:
