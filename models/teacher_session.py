@@ -8,6 +8,8 @@ from models.classroom import Classroom
 from models.engine.storage import DBStorage
 from models.subject import Subject
 from models.login import login
+from models.marks import Marks
+from models.assignment import Assignment
 def teacher_session():
     """this function is for the teacher functionality"""
     print("Welcome the EduConnect  Teacher Panel")
@@ -27,8 +29,9 @@ def teacher_session():
         print("8. post assignment")
         print("9. view assignment")
         print("10. post assignment marks")
-        print("11. Exit")
-        print(" ")
+        print("11. view assignment marks")
+        print("12. view student performance")
+        print("13. exit")
 
         choice = input("Enter choice: ")
 
@@ -43,16 +46,20 @@ def teacher_session():
         elif choice == '4':
             Subject.view_subjects()
         elif choice == '5':
-            Student.input_student_marks()
+            Marks.input_marks()
         elif choice == '6':
-            Student.update_student_marks()
+            Marks.update_marks()
         elif choice == '7':
-            Student.view_student_marks()
+            Marks.view_marks()
         elif choice == '8':
-            Teacher.post_assignment()
+            Assignment.post_assignment()
         elif choice == '9':
-            Teacher.view_assignment()
+            Assignment.view_assignments_by_class_and_teacher()
         elif choice == '10':
-            Teacher.post_assignment_marks()
+            Marks.input_marks()
         elif choice == '11':
+            Marks.view_marks_by_assignment()
+        elif choice == '12':
+            Marks.view_student_performance()
+        elif choice == '13':
             break

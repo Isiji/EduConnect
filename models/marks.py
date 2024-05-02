@@ -22,7 +22,7 @@ class Marks(BaseModel, Base):
     
     #inputing marks   
     @staticmethod
-    def register_marks():
+    def input_marks():
         """registers marks"""
         from models.engine.storage import DBStorage
         db_storage = DBStorage()
@@ -130,3 +130,21 @@ class Marks(BaseModel, Base):
             if mark.subject_id == subject_id:
                 print(mark)
 
+    #view student perfomance
+    @staticmethod
+    def view_student_performance():
+        """view student performance"""
+        from models.engine.storage import DBStorage
+        db_storage = DBStorage()
+        student_id = input("Enter student id: ")
+        marks = db_storage.all(Marks)
+        total = 0
+        count = 0
+        for mark in marks.values():
+            if mark.student_id == student_id:
+                total += int(mark.grade)
+                count += 1
+        if count == 0:
+            print("Student has no marks")
+        else:
+            print("Student average grade: {}".format(total / count))

@@ -13,6 +13,8 @@ from models.school import School
 from models.admin_model import Admin
 import shlex
 from models.admin_session import admin_session
+from models.teacher_session import teacher_session
+from models.student_session import student_session
 #classes = {"Teacher": Teacher, "Student": Student, "School": School, "Classroom": Classroom} 
 
 
@@ -168,6 +170,18 @@ class EduConnectCommand(cmd.Cmd):
     def do_admin(self, arg):
         """Enters the admin session"""
         admin_session()
+
+    def do_teacher(self, arg):
+        """Enters the teacher session"""
+        teacher_session()
+
+    def do_student(self, arg):
+        """Enters the student session"""
+        student_session()
+
+    def do_parent(self, arg):
+        """Enters the parent session"""
+        parent_session()
 
 if __name__ == '__main__':
     EduConnectCommand().cmdloop()
