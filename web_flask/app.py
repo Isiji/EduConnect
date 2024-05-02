@@ -21,17 +21,6 @@ def login():
             return redirect(url_for('home'))
         
         return render_template('login.html')
-@app.route('/logout/')
-def logout():
-    """logout route"""
-    session.pop('user', None)
-    return redirect(url_for('home'))
-@app.route('user')
-def user():
-    """user route"""
-    if "user" in session:
-        user = session['user']
-        return render_template('user.html')
-    return redirect(url_for('login'))
+
 if __name__ == '__main__':
     app.run(host='localhost', port=5000, debug=True)
