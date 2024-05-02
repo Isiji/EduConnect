@@ -40,3 +40,106 @@ class Teacher(BaseModel, Base):
         )
         db_storage.new(teacher)
         db_storage.save()
+
+        print("Teacher registered successfully")
+
+    @staticmethod
+    def login_teacher():
+        """logs in a teacher"""
+        from models.engine.storage import DBStorage
+        db_storage = DBStorage()
+
+        email = input("Enter email: ")
+        password = input("Enter password: ")
+
+        teachers = db_storage.all(Teacher)
+        for teacher in teachers.values():
+            if teacher.email == email and teacher.password == password:
+                print("Login successful")
+                return
+        print("Login failed. Incorrect email or password!")
+
+    #updates a teacher with new information
+    @staticmethod
+    def update_teacher():
+        """updates a teacher"""
+        from models.engine.storage import DBStorage
+        db_storage = DBStorage()
+
+        email = input("Enter email: ")
+        password = input("Enter password: ")
+
+        teachers = db_storage.all(Teacher)
+        for teacher in teachers.values():
+            if teacher.email == email and teacher.password == password:
+                teacher.first_name = input("Enter new first name: ")
+                teacher.last_name = input("Enter new last name: ")
+                teacher.email = input("Enter new email: ")
+                teacher.password = input("Enter new password: ")
+                teacher.school_id = input("Enter new school id: ")
+                db_storage.save()
+                print("Teacher updated successfully")
+                return
+        print("Teacher not found. Incorrect details")
+
+    #deletes a teacher
+    @staticmethod
+    def delete_teacher():
+        """deletes a teacher"""
+        from models.engine.storage import DBStorage
+        db_storage = DBStorage()
+
+        email = input("Enter email: ")
+        password = input("Enter password: ")
+
+        teachers = db_storage.all(Teacher)
+        for teacher in teachers.values():
+            if teacher.email == email and teacher.password == password:
+                db_storage.delete(teacher)
+                db_storage.save()
+                print("Teacher deleted successfully")
+                return
+        print("Teacher not found. Incorrect details")
+
+    #shows all teachers
+    @staticmethod
+    def view_all_teachers():
+        """shows all teachers"""
+        from models.engine.storage import DBStorage
+        db_storage = DBStorage()
+
+        teachers = db_storage.all(Teacher)
+        for teacher in teachers.values():
+            print(teacher)
+
+    #shows a specific teacher
+    @staticmethod
+    def show_teacher():
+        """shows a specific teacher"""
+        from models.engine.storage import DBStorage
+        db_storage = DBStorage()
+
+        email = input("Enter email: ")
+
+        teachers = db_storage.all(Teacher)
+        for teacher in teachers.values():
+            if teacher.email == email:
+                print(teacher)
+                return
+        print("Teacher not found. Incorrect details")
+
+    #shows all teachers in a school
+    @staticmethod
+    def show_school_teachers():
+        """shows all teachers in a school"""
+        from models.engine.storage import DBStorage
+        db_storage = DBStorage()
+
+        school_id = input("Enter school id: ")
+
+        teachers = db_storage.all(Teacher)
+        for teacher in teachers.values():
+            if teacher.school_id == school_id:
+                print(teacher)
+                return
+        print("No teachers found in this school")

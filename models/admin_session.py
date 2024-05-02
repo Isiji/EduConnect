@@ -15,6 +15,8 @@ def admin_session():
     print(" ")
 
     while True:
+        print("Select an option")
+        print("0. Login Admin")
         print("1. Register a new admin")
         print("2. Register student")
         print("3. Register teacher")
@@ -36,7 +38,10 @@ def admin_session():
             print("Invalid choice. Enter a number")
             continue
 
-        if choice == 1:
+        if choice == 0:
+            admin = Admin()
+            admin.login_admin()
+        elif choice == 1:
             admin = Admin()
             admin.register_admin()
 
