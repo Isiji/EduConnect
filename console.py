@@ -17,7 +17,6 @@ from models.teacher_session import teacher_session
 from models.student_session import student_session
 from models.parent_session import parent_session
 from models.login import login
-from models.register import register
 #classes = {"Teacher": Teacher, "Student": Student, "School": School, "Classroom": Classroom} 
 
 
@@ -27,7 +26,7 @@ class EduConnectCommand(cmd.Cmd):
     print("Welcome to the EduConnect Console")
     print("Type help to list commands")
     print("Type quit to exit the console")
-    print("Type login to login to the program or register to register to the program")
+    print("Type login to login to the program or admin to start admin session")
 
     def __init__(self):
         """Initialize the console"""
@@ -40,9 +39,6 @@ class EduConnectCommand(cmd.Cmd):
         return True
 
     #create for register
-    def do_register(self, arg):
-        """Register command to register to the program"""
-        register()    
     #create for login
     def do_login(self, arg):
         """Login command to login to the program"""

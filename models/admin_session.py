@@ -39,6 +39,7 @@ def admin_session():
 
         if choice == 1:
             admin = Admin()
+            print("Register as Admin")
             admin.register_admin()
 
         elif choice == 2:
