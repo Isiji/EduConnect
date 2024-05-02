@@ -6,7 +6,6 @@ from models.student import Student
 from models.teacher import Teacher
 from models.school import School
 from models.classroom import Classroom
-from models.login import login
 from models.subject import Subject
 from models.marks import Marks
 from models.assignment import Assignment
@@ -18,7 +17,6 @@ def parent_session():
     while True:
         print(" ")
         print("What would you like to do?")
-        print("0. login ")
         print("2. View all students")
         print("3. View all classes")
         print("4. View all subjects")
@@ -29,9 +27,7 @@ def parent_session():
 
         choice = input("Enter choice: ")
 
-        if choice == '0':
-            login()
-        elif choice == '1':
+        if choice == '1':
             Student.register_student()
         elif choice == '2':
             Student.view_all_students()

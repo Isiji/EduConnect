@@ -54,6 +54,14 @@ body {
 
 .login-form button:hover {
     background-color: #45a049;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 0;
+    margin-right: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .login-form .error-message {

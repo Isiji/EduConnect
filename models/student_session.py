@@ -8,7 +8,6 @@ from models.assignment import Assignment
 from models.subject import Subject
 from models.classroom import Classroom
 from models.school import School
-from models.login import login
 
 def student_session():
     """this function is for the student functionality"""
@@ -18,7 +17,6 @@ def student_session():
     while True:
         print(" ")
         print("What would you like to do?")
-        print("0. login ")
         print("1. View all subjects")
         print("2. View all classes")
         print("3. View all assignments")
@@ -28,9 +26,8 @@ def student_session():
 
         choice = input("Enter choice: ")
 
-        if choice == '0':
-            login()
-        elif choice == '1':
+    
+        if choice == '1':
             Subject.view_subjects()
         elif choice == '2':
             Classroom.view_classes()

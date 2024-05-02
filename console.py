@@ -16,6 +16,8 @@ from models.admin_session import admin_session
 from models.teacher_session import teacher_session
 from models.student_session import student_session
 from models.parent_session import parent_session
+from models.login import login
+from models.register import register
 #classes = {"Teacher": Teacher, "Student": Student, "School": School, "Classroom": Classroom} 
 
 
@@ -25,11 +27,7 @@ class EduConnectCommand(cmd.Cmd):
     print("Welcome to the EduConnect Console")
     print("Type help to list commands")
     print("Type quit to exit the console")
-    print("which account do you want to acces")
-    print("admin")
-    print("student")
-    print("teacher")
-    print("parent")
+    print("Type login to login to the program or register to register to the program")
 
     def __init__(self):
         """Initialize the console"""
@@ -40,7 +38,15 @@ class EduConnectCommand(cmd.Cmd):
     def do_quit(self, arg):
         """Quit command to exit the program"""
         return True
-    
+
+    #create for register
+    def do_register(self, arg):
+        """Register command to register to the program"""
+        register()    
+    #create for login
+    def do_login(self, arg):
+        """Login command to login to the program"""
+        login()
     #create for EOF
     def do_EOF(self, arg):
         """EOF command to exit the program"""

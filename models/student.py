@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Student module for the student model"""
 
-from sqlalchemy import create_engine, Column, String, ForeignKey
+from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import sessionmaker
 from models.base_model import BaseModel, Base
 import uuid
@@ -13,8 +13,6 @@ class Student(BaseModel, Base):
     last_name = Column(String(128), nullable=False)
     email = Column(String(128), nullable=False)
     password = Column(String(128), nullable=False)
-    school_id = Column(String(60), ForeignKey('schools.id'), nullable=False)
-    class_id = Column(String(60), ForeignKey('classes.id'), nullable=False)
     
 
     def __init__(self, *args, **kwargs):
@@ -36,8 +34,6 @@ class Student(BaseModel, Base):
             last_name = input("Enter last name: "),
             email = input("Enter email: "),
             password = input("Enter password: "),
-            school_id = input("Enter school id: "),
-            class_id = input("Enter class id: "),
         )
         db_storage.new(student)
         db_storage.save()

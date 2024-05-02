@@ -7,7 +7,6 @@ from models.school import School
 from models.classroom import Classroom
 from models.engine.storage import DBStorage
 from models.subject import Subject
-from models.login import login
 from models.marks import Marks
 from models.assignment import Assignment
 def teacher_session():
@@ -18,7 +17,6 @@ def teacher_session():
     while True:
         print(" ")
         print("What would you like to do?")
-        print("0. login ")
         print("1. Register a student")
         print("2. View all students")
         print("3. View all classes")
@@ -35,9 +33,7 @@ def teacher_session():
 
         choice = input("Enter choice: ")
 
-        if choice == '0':
-            login()
-        elif choice == '1':
+        if choice == '1':
             Student.register_student()
         elif choice == '2':
             Student.view_all_students()

@@ -23,3 +23,16 @@ class Parent(BaseModel, Base):
     def __str__(self):
         """string representation of the parent"""
         return "Parent: {} {}".format(self.first_name, self.last_name)
+    
+    @classmethod
+    def register_parent(cls):
+        """register a parent"""
+        print("Register a parent")
+        first_name = input("Enter first name: ")
+        last_name = input("Enter last name: ")
+        email = input("Enter email: ")
+        password = input("Enter password: ")
+        student_id = input("Enter student id: ")
+
+        parent = cls(first_name=first_name, last_name=last_name, email=email, password=password, student_id=student_id)
+        parent.save()
