@@ -19,7 +19,7 @@ def student_session():
         print("What would you like to do?")
         print("1. View all subjects")
         print("2. View all classes")
-        print("3. View all assignments")
+        print("3. View assignments by class")
         print("4. View all marks")
         print("5. View student performance")
         print("6. exit")
