@@ -10,9 +10,6 @@ class Subject(BaseModel, Base):
     __tablename__ = 'subjects'
     id = Column(String(15), nullable=False, primary_key=True, unique=True)
     name = Column(String(128), nullable=False)
-    teacher_id = Column(String(60), ForeignKey('teachers.id'), nullable=False)
-    class_id = Column(String(60), ForeignKey('classes.id'), nullable=False)
-    student_id = Column(String(60), ForeignKey('students.id'), nullable=False)
     
 
     def __init__(self, *args, **kwargs):
@@ -67,13 +64,3 @@ class Subject(BaseModel, Base):
 
         
         #view subject by class
-    @staticmethod
-    def view_subjects_by_class():
-        """view all subjects by class"""
-        from models.engine.storage import DBStorage
-        db_storage = DBStorage()
-        class_id = input("Enter class id: ")
-        subjects = db_storage.all(Subject)
-        for subject in subjects.values():
-            if subject.class_id == class_id:
-                print(subject)

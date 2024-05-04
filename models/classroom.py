@@ -11,8 +11,6 @@ class Classroom(BaseModel, Base):
     __tablename__ = 'classes'
     id = Column(String(25), nullable=False, primary_key=True, unique=True)
     name = Column(String(128), nullable=False)
-    teacher_id = Column(String(60), ForeignKey('teachers.id'), nullable=False)
-    school_id = Column(String(60), ForeignKey('schools.id'), nullable=False)
 
     def __init__(self, *args, **kwargs):
         """initializes the class"""

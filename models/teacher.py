@@ -12,7 +12,6 @@ class Teacher(BaseModel, Base):
     last_name = Column(String(128), nullable=False)
     email = Column(String(128), nullable=False)
     password = Column(String(128), nullable=False)
-    school_id = Column(String(60), ForeignKey('schools.id'), nullable=False)
 
 
     def __init__(self, *args, **kwargs):
@@ -36,7 +35,6 @@ class Teacher(BaseModel, Base):
             last_name = input("Enter last name: "),
             email = input("Enter email: "),
             password = input("Enter password: "),
-            school_id = input("Enter school id: ")
         )
         db_storage.new(teacher)
         db_storage.save()
@@ -76,7 +74,6 @@ class Teacher(BaseModel, Base):
                 teacher.last_name = input("Enter new last name: ")
                 teacher.email = input("Enter new email: ")
                 teacher.password = input("Enter new password: ")
-                teacher.school_id = input("Enter new school id: ")
                 db_storage.save()
                 print("Teacher updated successfully")
                 return
@@ -129,17 +126,3 @@ class Teacher(BaseModel, Base):
         print("Teacher not found. Incorrect details")
 
     #shows all teachers in a school
-    @staticmethod
-    def show_school_teachers():
-        """shows all teachers in a school"""
-        from models.engine.storage import DBStorage
-        db_storage = DBStorage()
-
-        school_id = input("Enter school id: ")
-
-        teachers = db_storage.all(Teacher)
-        for teacher in teachers.values():
-            if teacher.school_id == school_id:
-                print(teacher)
-                return
-        print("No teachers found in this school")

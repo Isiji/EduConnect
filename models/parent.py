@@ -13,7 +13,6 @@ class Parent(BaseModel, Base):
     last_name = Column(String(128), nullable=False)
     email = Column(String(128), nullable=False)
     password = Column(String(128), nullable=False)
-    student_id = Column(String(60), ForeignKey('students.id'), nullable=False)
 
     
     def __init__(self, *args, **kwargs):
@@ -32,7 +31,6 @@ class Parent(BaseModel, Base):
         last_name = input("Enter last name: ")
         email = input("Enter email: ")
         password = input("Enter password: ")
-        student_id = input("Enter student id: ")
 
-        parent = cls(first_name=first_name, last_name=last_name, email=email, password=password, student_id=student_id)
+        parent = cls(first_name=first_name, last_name=last_name, email=email, password=password)
         parent.save()
