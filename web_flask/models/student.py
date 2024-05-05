@@ -13,7 +13,7 @@ class Student(BaseModel, Base):
     last_name = Column(String(128), nullable=False)
     email = Column(String(128), nullable=False)
     password = Column(String(128), nullable=False)
-    
+    class_id = Column(String(10), ForeignKey('classrooms.id'), nullable=False)
 
     def __init__(self, *args, **kwargs):
         """initializes the student"""
@@ -34,6 +34,7 @@ class Student(BaseModel, Base):
             last_name = input("Enter last name: "),
             email = input("Enter email: "),
             password = input("Enter password: "),
+            
         )
         db_storage.new(student)
         db_storage.save()

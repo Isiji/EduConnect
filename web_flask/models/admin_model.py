@@ -9,10 +9,10 @@ from models.base_model import BaseModel, Base
 class Admin(BaseModel, Base):
     """Admin model"""
     __tablename__ = 'admins'
-    email = Column(String(128), nullable=False)
-    password = Column(String(128), nullable=False)
     first_name = Column(String(128), nullable=False)
     last_name = Column(String(128), nullable=False)
+    email = Column(String(128), nullable=False)
+    password = Column(String(128), nullable=False)
     
 
     def __init__(self, *args, **kwargs):
@@ -30,10 +30,11 @@ class Admin(BaseModel, Base):
         from models.engine.storage import DBStorage
         db_storage = DBStorage()
         admin = Admin(
+            first_name = input("Enter first name: "),
+            last_name = input("Enter last name: "),
             email = input("Enter email: "),
             password = input("Enter password: "),
-            first_name = input("Enter first name: "),
-            last_name = input("Enter last name: ")
+
         )
         db_storage.new(admin)
         db_storage.save()

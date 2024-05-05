@@ -4,9 +4,14 @@
 from flask import Flask, session, render_template, request, url_for, redirect
 from forms import LoginForm, RegistrationForm
 from flask import flash
+from models.engine.storage import DBStorage
+from models.admin_model import Admin
+from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret_key'
+bycrpt = Bcrypt(app)
+db_storage = DBStorage()
 @app.route('/')
 def home():
     """home route"""
@@ -30,12 +35,13 @@ def register():
     """register route"""
     form = RegistrationForm()
     if form.validate_on_submit():
-        session['username'] = form.username.data
-        session['email'] = form.email.data
-        session['password'] = form.password.data
-        flash(f'Account created for {form.username.data}!', 'success')
+        hashed_password = bycrpt.generate_password_hash(form.password.data).decode('utf-8')
+        admin = Admin(email=form.email.data, password=hashed_password, first_name=form.first_name.data, last_name=form.last_name.data)
+        db_storage.new(admin)
+        db_storage.save()
+        flash(f'Account created for {form.email.data}!', 'success')
         return redirect(url_for('login'))
-    return render_template('register.html', title='Register', form=form)
+    return render_template('register_admin.html', title='Register', form=form)
 @app.route('/admin/', methods=['POST', 'GET'], strict_slashes=False)
 def admin():
     """admin route"""
