@@ -67,19 +67,6 @@ def create_classroom():
     print("Classroom added successfully")
 
 #create a function for admin to add a new admin to the database
-def create_admin():
-    """creates a new admin"""
-    email = input("Enter admin's email: ")
-    password = input("Enter admin's password: ")
-    first_name = input("Enter admin's first name: ")
-    last_name = input("Enter admin's last name: ")
-    school_id = input("Enter admin's school id: ")
-
-    admin = Admin(email=email, password=password, first_name=first_name, last_name=last_name, school_id=school_id)
-    storage.DBStorage().new(admin)
-    storage.DBStorage().save()
-    print("Admin added successfully")
-
 #create a function for admin to add a new parent to the database
 
 def create_parent():
@@ -88,9 +75,8 @@ def create_parent():
     password = input("Enter parent's password: ")
     first_name = input("Enter parent's first name: ")
     last_name = input("Enter parent's last name: ")
-    student_id = input("Enter parent's student id: ")
 
-    parent = Parent(email=email, password=password, first_name=first_name, last_name=last_name, student_id=student_id)
+    parent = Parent(email=email, password=password, first_name=first_name, last_name=last_name)
     storage.DBStorage().new(parent)
     storage.DBStorage().save()
     print("Parent added successfully")
