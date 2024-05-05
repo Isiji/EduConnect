@@ -24,3 +24,16 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
+
+class RegisterSchoolForm(FlaskForm):
+    name = StringField('Name',
+                           validators=[DataRequired(), Length(min=2, max=20)])
+    address = StringField('Address', validators=[DataRequired()])
+    county = StringField('County')
+    phone = StringField('Phone', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    website = StringField('Website', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password',
+                                     validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Register School')

@@ -1,21 +1,21 @@
 #!/usr/bin/python3
 """School module for the school model"""
 import models
-from sqlalchemy import Column, String, ForeignKey
+from sqlalchemy import Column, String, ForeignKey, Integer
 from sqlalchemy.orm import relationship
 from models.base_model import BaseModel, Base
 import uuid
 class School(BaseModel, Base):
     """School model"""
     __tablename__ = 'schools'
-    id = Column(String(15), nullable=False, primary_key=True, unique=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(128), nullable=False)
     address = Column(String(128), nullable=False)
-    city = Column(String(128), nullable=False)
     county = Column(String(128), nullable=False)
     phone = Column(String(128), nullable=False)
     email = Column(String(128), nullable=False)
     website = Column(String(128))
+    password = Column(String(128), nullable=False)
 
 
 
@@ -33,12 +33,11 @@ class School(BaseModel, Base):
         """registers a school"""
         from models.engine.storage import DBStorage
         db_storage = DBStorage()
-        short_id = str(uuid.uuid4())[:8]
+        short_id = str(uuid.uuid4())[:6]
         school = School(
             id = short_id,
             name = input("Enter school name: "),
             address = input("Enter school address: "),
-            city = input("Enter city: "),
             county = input("Enter county: "),
             phone = input("Enter phone: "),
             email = input("Enter email: "),
