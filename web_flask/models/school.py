@@ -5,13 +5,14 @@ from sqlalchemy import Column, String, ForeignKey, Integer
 from sqlalchemy.orm import relationship
 from models.base_model import BaseModel, Base
 import uuid
+
 class School(BaseModel, Base):
     """School model"""
     __tablename__ = 'schools'
-    id = Column(Integer, primary_key=True, autoincrement=True)
+    id = Column(String(120), primary_key=True, default=lambda: str(uuid.uuid4()))
     name = Column(String(128), nullable=False)
     address = Column(String(128), nullable=False)
-    county = Column(String(128), nullable=False)
+    county = Column(String(128))
     phone = Column(String(128), nullable=False)
     email = Column(String(128), nullable=False)
     website = Column(String(128))
