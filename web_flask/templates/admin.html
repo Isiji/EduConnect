@@ -1,5 +1,15 @@
 {%extends 'layout.html'%}
 {%block title%} Admin Panel {%endblock%}
 {%block content%}
-    
+<div class="container">
+    <h1>Admin Panel</h1>
+    <p>Welcome to the admin panel, {{session['username']}}</p>
+    <p>Here you can manage the users and the posts</p>
+    <a href="{{url_for('register_teacher')}}" class="btn btn-primary">Register Teacher</a>
+    <a href="{{url_for('register_admin')}}" class="btn btn-primary">Register Admin</a>
+    <a href="{{url_for('register_classroom')}}" class="btn btn-primary">Register Classroom</a>
+    <a href="{{url_for('register_student')}}" class="btn btn-primary">Register Student</a>
+    <a href="{{url_for('delete_teacher')}}" class="btn btn-danger">Delete Teacher</a>
+    <a href="{{url_for('logout')}}" class="btn btn-danger">Logout</a>
+</div>
 {%endblock%}

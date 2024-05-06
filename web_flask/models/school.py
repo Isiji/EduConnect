@@ -17,7 +17,7 @@ class School(BaseModel, Base):
     email = Column(String(128), nullable=False)
     website = Column(String(128))
     password = Column(String(128), nullable=False)
-
+    
 
 
     def __init__(self, *args, **kwargs):

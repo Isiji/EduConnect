@@ -16,6 +16,19 @@ class RegistrationForm(FlaskForm):
                                      validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Sign Up')
 
+#class to create a form to register a classroom
+class RegisterClassroomForm(FlaskForm):
+    name = StringField('Name',
+                           validators=[DataRequired(), Length(min=2, max=20)])
+    submit = SubmitField('Register Class')
+
+#create a delete form  where the admin will use to delete other records like teachers, students and parents but must enter his password to confirm the delete action
+class DeleteForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    submit = SubmitField('Delete')
+
+
+
 
 
 class LoginForm(FlaskForm):

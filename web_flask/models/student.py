@@ -8,12 +8,11 @@ import uuid
 class Student(BaseModel, Base):
     """Student model"""
     __tablename__ = 'students'
-    id = Column(String(10), nullable=False, primary_key=True, unique=True)
+    id = Column(String(70), nullable=False, primary_key=True, unique=True)
     first_name = Column(String(128), nullable=False)
     last_name = Column(String(128), nullable=False)
     email = Column(String(128), nullable=False)
     password = Column(String(128), nullable=False)
-    class_id = Column(String(10), ForeignKey('classrooms.id'), nullable=False)
 
     def __init__(self, *args, **kwargs):
         """initializes the student"""

@@ -1,0 +1,30 @@
+{%extends 'layout.html'%}
+{%block title%} Delete Teacher {%endblock%}
+{%block content%}
+    <div class="content-section">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Delete Teacher</legend>
+                <div class="form-group">
+                    {{ form.email.label(class="form-control-label") }}
+
+                    {% if form.email.errors %}
+                        {{ form.email(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.email.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.email(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+
+                <div class="form-group mt-4">
+                    <button class="btn btn-outline-info" type="submit">Delete Teacher</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+{%endblock%}

@@ -9,10 +9,8 @@ import uuid
 class Classroom(BaseModel, Base):
     """Class model"""
     __tablename__ = 'classes'
-    id = Column(String(25), nullable=False, primary_key=True, unique=True)
+    id = Column(String(120), nullable=False, primary_key=True, unique=True)
     name = Column(String(128), nullable=False)
-    teacher_id = Column(String(25), ForeignKey('teachers.id'), nullable=False)
-    school_id = Column(String(25), ForeignKey('schools.id'), nullable=False)
     
 
     def __init__(self, *args, **kwargs):

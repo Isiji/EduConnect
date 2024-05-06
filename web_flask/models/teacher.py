@@ -7,7 +7,7 @@ import uuid
 class Teacher(BaseModel, Base):
     """Teacher model"""
     __tablename__ = 'teachers'
-    id = Column(String(60), nullable=False, primary_key=True, unique=True)
+    id = Column(String(120), nullable=False, primary_key=True, unique=True)
     first_name = Column(String(128), nullable=False)
     last_name = Column(String(128), nullable=False)
     email = Column(String(128), nullable=False)

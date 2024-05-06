@@ -2,7 +2,7 @@
 """flask application"""
 
 from flask import Flask, session, render_template, request, url_for, redirect
-from forms import LoginForm, RegistrationForm, RegisterSchoolForm
+from forms import LoginForm, RegistrationForm, RegisterSchoolForm, DeleteForm, RegisterClassroomForm
 from flask import flash
 from models.engine.storage import DBStorage
 from models.admin_model import Admin
@@ -10,6 +10,7 @@ from flask_bcrypt import Bcrypt
 from models.teacher import Teacher
 from models.student import Student
 from models.school import School
+from models.classroom import Classroom
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret_key'
@@ -59,8 +60,8 @@ def register_teacher():
         db_storage.save()
         flash(f'Account created for {form.email.data}!', 'success')
         return redirect(url_for('login'))
-    return render_template('register_teacher.html', title='Register', form=form)
-
+    return render_template('register_teacher.html', title='Register Teacher', form=form)
+#should delete from database
 @app.route('/register_student/', methods=['POST', 'GET'], strict_slashes=False)
 def register_student():
     """register route"""
@@ -74,6 +75,8 @@ def register_student():
         return redirect(url_for('login'))
     return render_template('register_student.html', title='Register', form=form)
 
+
+
 @app.route('/register_school/', methods=['POST', 'GET'], strict_slashes=False)
 def register_school():
     """register route"""
@@ -86,6 +89,31 @@ def register_school():
         flash(f'Account created for {form.email.data}!', 'success')
         return redirect(url_for('login'))
     return render_template('register_school.html', title='Register Your School', form=form)
+
+@app.route('/register_classroom/', methods=['POST', 'GET'], strict_slashes=False)
+def register_classroom():
+    """register route"""
+    form = RegisterClassroomForm()
+    if form.validate_on_submit():
+        classroom = Classroom(name=form.name.data)
+        db_storage.new(classroom)
+        db_storage.save()
+        flash(f'Classroom created for {form.name.data}!', 'success')
+        return redirect(url_for('home'))
+    return render_template('register_classroom.html', title='Register Classroom', form=form)
+@app.route('/delete_teacher/', methods=['POST', 'GET'], strict_slashes=False)
+def delete_teacher():
+    """delete route"""
+    form = DeleteForm()
+    if form.validate_on_submit():
+        teacher = db_storage.all('Teacher')
+        for t in teacher:
+            if t.email == form.email.data:
+                db_storage.delete(t)
+                db_storage.save()
+                flash(f'Account deleted for {form.email.data}!', 'success')
+                return redirect(url_for('login'))
+    return render_template('delete_teacher.html', title='Delete Teacher', form=form)
 
 @app.route('/logout/', methods=['POST', 'GET'], strict_slashes=False)
 def logout():
