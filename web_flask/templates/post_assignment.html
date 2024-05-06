@@ -1,0 +1,79 @@
+{%extends 'layout.html'%}
+{%block title%} Post Assignment {%endblock%}
+{%block content%}
+<div class="container">
+    <h1>Post Assignment</h1>
+    <p>Here you can post the assignment</p>
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <form method="POST" action="">
+                {{ form.hidden_tag() }}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Post Assignment</legend>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            {{ form.assignment_name.label(class="form-control-label") }}
+                            {% if form.assignment_name.errors %}
+                                {{ form.assignment_name(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.assignment_name.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.assignment_name(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form.description.label(class="form-control-label") }}
+                            {% if form.description.errors %}
+                                {{ form.description(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.description.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.description(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                    </div>  
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            {{ form.due_date.label(class="form-control-label") }}
+                            {% if form.due_date.errors %}
+                                {{ form.due_date(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.due_date.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.due_date(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form.classroom.label(class="form-control-label") }}
+                            {% if form.classroom.errors %}
+                                {{ form.classroom(class="form-control form-control-lg is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.classroom.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.classroom(class="form-control form-control-lg") }}
+                            {% endif %}
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        {{ form.submit(class="btn btn-outline-info") }}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{%endblock%}

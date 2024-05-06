@@ -1,0 +1,30 @@
+{%extends 'layout.html'%}
+{%block title%} View Teachers {%endblock%}
+{%block content%}
+<div class="container">
+    <h1>Teachers</h1>
+    <p>Here you can view the teachers</p>
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Teacher ID</th>
+                        <th>Teacher Name</th>
+                        <th>Teacher Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for teacher in teachers %}
+                    <tr>
+                        <td>{{teacher.teacher_id}}</td>
+                        <td>{{teacher.teacher_name}}</td>
+                        <td>{{teacher.teacher_email}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{%endblock%}

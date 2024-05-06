@@ -8,10 +8,12 @@ from models.base_model import BaseModel, Base
 class Assignment(BaseModel, Base):
     """Assignment model"""
     __tablename__ = 'assignments'
-    id = Column(String(15), nullable=False, primary_key=True, unique=True)
-    name = Column(String(128), nullable=False)
+    id = Column(String(100), nullable=False, primary_key=True, unique=True)
+    assignment_name = Column(String(128), nullable=False)
+    classroom = Column(String(128), nullable=False)
     due_date = Column(String(128), nullable=False)
     description = Column(String(128), nullable=False)
+    
     
 
     def __init__(self, *args, **kwargs):

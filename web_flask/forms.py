@@ -16,12 +16,23 @@ class RegistrationForm(FlaskForm):
                                      validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Sign Up')
 
+#create a form to post an assignment
+class PostAssignmentForm(FlaskForm):
+    name = StringField('Name',
+                           validators=[DataRequired(), Length(min=2, max=20)])
+    due_date = StringField('Due Date', validators=[DataRequired()])
+    description = StringField('Description', validators=[DataRequired()])
+    submit = SubmitField('Post Assignment')
+
 #class to create a form to register a classroom
 class RegisterClassroomForm(FlaskForm):
     name = StringField('Name',
                            validators=[DataRequired(), Length(min=2, max=20)])
     submit = SubmitField('Register Class')
 
+#class where admin can view all teachers
+class ViewTeachersForm(FlaskForm):
+    submit = SubmitField('View Teachers')
 #create a delete form  where the admin will use to delete other records like teachers, students and parents but must enter his password to confirm the delete action
 class DeleteForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -50,3 +61,17 @@ class RegisterSchoolForm(FlaskForm):
     confirm_password = PasswordField('Confirm Password',
                                      validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Register School')
+
+    #create a class for a teacher to post assignments
+class PostAssignmentForm(FlaskForm):
+    assignment_name = StringField('Assignment Name', validators=[DataRequired()])
+    due_date = StringField('Due Date', validators=[DataRequired()])
+    description = StringField('Description', validators=[DataRequired()])
+    classroom = StringField('Classroom', validators=[DataRequired()])
+    submit = SubmitField('Post Assignment')
+
+    #class to view all students
+class ViewStudentsForm(FlaskForm):
+    submit = SubmitField('View Students')
+
+    #class to view all parents

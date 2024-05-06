@@ -1,0 +1,26 @@
+{% extends 'layout.html'%}
+{% block title%} Parent Panel {% endblock%}
+{% block content%}
+<div class="container">
+    <h1>Parent Panel</h1>
+    <p>Welcome to the parent panel, {{session['username']}}</p>
+    <p>Here you can view the students and the teachers</p>
+    <div class="row">
+        <div class="col-md-4">
+            <a href="{{url_for('view_student')}}" class="btn btn-primary">View Student</a>
+        </div>
+        <div class="col-md-4">
+            <a href="{{url_for('view_teacher')}}" class="btn btn-primary">View Teacher</a>
+        </div>
+        <div class="col-md-4">
+            <a href="{{url_for('logout')}}" class="btn btn-danger">Logout</a>
+        </div>
+        <div class="col-md-4">
+            <a href="{{url_for('view_classroom')}}" class="btn btn-primary">View Classroom</a>
+        </div>
+        <div class="col-md-4">
+            <a href="{{url_for('view_assignment')}}" class="btn btn-primary">View Assignment</a>
+        </div>
+    </div>
+</div>
+{% endblock%}

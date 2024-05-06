@@ -1,0 +1,34 @@
+{%extends 'layout.html'%}
+{%block title%} View Assignment {%endblock%}
+{%block content%}
+
+<div class="container">
+
+    <h1>Assignments</h1>
+    <p>Here you can view the assignments</p>
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Assignment ID</th>
+                        <th>Assignment Name</th>
+                        <th>Assignment Description</th>
+                        <th>Assignment Due Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for assignment in assignments %}
+                    <tr>
+                        <td>{{assignment.assignment_id}}</td>
+                        <td>{{assignment.assignment_name}}</td>
+                        <td>{{assignment.assignment_description}}</td>
+                        <td>{{assignment.assignment_due_date}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{%endblock%}

@@ -1,0 +1,33 @@
+{%extends 'layout.html'%}
+{%block title%} View Classroom {%endblock%}
+{%block content%}
+
+<div class="container">
+
+    <h1>Classroom</h1>
+    <p>Here you can view the classroom</p>
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Classroom ID</th>
+                        <th>Classroom Name</th>
+                        <th>Classroom Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for classroom in classrooms %}
+                    <tr>
+                        <td>{{classroom.classroom_id}}</td>
+                        <td>{{classroom.classroom_name}}</td>
+                        <td>{{classroom.classroom_description}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+    
+    {%endblock%}

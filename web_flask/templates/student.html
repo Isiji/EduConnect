@@ -1,15 +1,17 @@
 {%extends 'layout.html'%}
 {%block title%} Student Panel {%endblock%}
 {%block content%}
-
+<div class="container">
     <h1>Student Panel</h1>
-    <p>Welcome to the EduConnect student panel!</p>
-    <div id = "options">
-        <button onclick="viewMarks()">View Marks</button>
-        <button onclick="viewAssignments()">View Assignments</button>
-        <button onclick="viewPerformance()">View Performance</button>
-        <button onclick="viewAssignments()">View Assignments</button>
-        <button onclick="viewClasses()"> View Classes</button>
+    <p>Welcome to the student panel, {{session['username']}}</p>
+    <p>Here you can view the assignments</p>
+    <div class="row">
+        <div class="col-md-4">
+            <a href="{{url_for('view_assignment')}}" class="btn btn-primary">View Assignment</a>
+        </div>
+        <div class="col-md-4">
+            <a href="{{url_for('logout')}}" class="btn btn-danger">Logout</a>
+        </div>
     </div>
-
+</div>
 {%endblock%}
