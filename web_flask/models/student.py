@@ -12,6 +12,7 @@ class Student(BaseModel, Base):
     first_name = Column(String(128), nullable=False)
     last_name = Column(String(128), nullable=False)
     email = Column(String(128), nullable=False)
+    image_file = Column(String(128), nullable=False, default='default.jpg')
     password = Column(String(128), nullable=False)
 
     def __init__(self, *args, **kwargs):

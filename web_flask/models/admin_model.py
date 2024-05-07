@@ -33,6 +33,7 @@ class Admin(BaseModel, Base):
             first_name = input("Enter first name: "),
             last_name = input("Enter last name: "),
             email = input("Enter email: "),
+            image_file = Column(String(128), nullable=False, default='default.jpg'),    
             password = input("Enter password: "),
 
         )

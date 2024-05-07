@@ -30,6 +30,7 @@ class Parent(BaseModel, Base):
         first_name = input("Enter first name: ")
         last_name = input("Enter last name: ")
         email = input("Enter email: ")
+        image_file = Column(String(128), nullable=False, default='default.jpg')    
         password = input("Enter password: ")
 
         parent = cls(first_name=first_name, last_name=last_name, email=email, password=password)

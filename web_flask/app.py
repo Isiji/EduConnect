@@ -18,6 +18,7 @@ app.config['SECRET_KEY'] = 'secret_key'
 bycrpt = Bcrypt(app)
 db_storage = DBStorage()
 
+
 @app.route('/')
 @app.route('/home/', methods=['POST', 'GET'], strict_slashes=False)
 def home():
