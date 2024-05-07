@@ -14,7 +14,7 @@ class School(BaseModel, Base):
     address = Column(String(128), nullable=False)
     county = Column(String(128))
     phone = Column(String(128), nullable=False)
-    email = Column(String(128), nullable=False)
+    email = Column(String(128), nullable=False, unique=True)
     website = Column(String(128))
     password = Column(String(128), nullable=False)
     

@@ -11,7 +11,7 @@ class Admin(BaseModel, Base):
     __tablename__ = 'admins'
     first_name = Column(String(128), nullable=False)
     last_name = Column(String(128), nullable=False)
-    email = Column(String(128), nullable=False)
+    email = Column(String(128), nullable=False, unique=True)
     password = Column(String(128), nullable=False)
     
 

@@ -9,6 +9,10 @@ from models.student import Student
 from models.school import School
 from models.classroom import Classroom
 from models.admin_model import Admin
+from models.parent import Parent
+from models.marks import Marks
+from models.assignment import Assignment
+from models.subject import Subject
 import sys
 class DBStorage:
     """Database storage class"""
@@ -27,7 +31,7 @@ class DBStorage:
 
     def all(self, cls=None):
         """Returns a dictionary of all objects"""
-        classes = [Admin, Teacher, Student, School, Classroom]
+        classes = [Admin, Teacher, Student, School, Classroom, Parent, Marks, Assignment, Subject]
         objects = {}
         if cls:
             if cls in classes:

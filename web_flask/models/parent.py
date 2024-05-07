@@ -11,7 +11,8 @@ class Parent(BaseModel, Base):
     id = Column(String(25), nullable=False, primary_key=True, unique=True)
     first_name = Column(String(128), nullable=False)
     last_name = Column(String(128), nullable=False)
-    email = Column(String(128), nullable=False)
+    email = Column(String(128), nullable=False, unique=True)
+    image_file = Column(String(128), nullable=False, default='default.jpg')    
     password = Column(String(128), nullable=False)
 
     
@@ -30,7 +31,6 @@ class Parent(BaseModel, Base):
         first_name = input("Enter first name: ")
         last_name = input("Enter last name: ")
         email = input("Enter email: ")
-        image_file = Column(String(128), nullable=False, default='default.jpg')    
         password = input("Enter password: ")
 
         parent = cls(first_name=first_name, last_name=last_name, email=email, password=password)

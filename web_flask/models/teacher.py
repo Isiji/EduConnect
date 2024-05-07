@@ -10,7 +10,7 @@ class Teacher(BaseModel, Base):
     id = Column(String(120), nullable=False, primary_key=True, unique=True)
     first_name = Column(String(128), nullable=False)
     last_name = Column(String(128), nullable=False)
-    email = Column(String(128), nullable=False)
+    email = Column(String(128), nullable=False, unique=True)
     image_file = Column(String(128), nullable=False, default='default.jpg')
     password = Column(String(128), nullable=False)
 
