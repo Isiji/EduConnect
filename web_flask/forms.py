@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
-from wtforms.validators import DataRequired, Length, Email, EqualTo
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 
 
 class RegistrationForm(FlaskForm):
@@ -16,6 +16,13 @@ class RegistrationForm(FlaskForm):
                                      validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Sign Up')
 
+    def validate_email(self, email):
+        from models.engine.storage import DBStorage
+        db_storage = DBStorage()
+        admins = db_storage.all('Admin')
+        for admin in admins.values():
+            if admin.email == email.data:
+                raise ValidationError('That email is taken. Please choose a different one.')
 #create a form to post an assignment
 class PostAssignmentForm(FlaskForm):
     name = StringField('Name',

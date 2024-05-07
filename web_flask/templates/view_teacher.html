@@ -10,16 +10,16 @@
                 <thead>
                     <tr>
                         <th>Teacher ID</th>
-                        <th>Teacher Name</th>
+                        <th>Teachers  First Name</th>
                         <th>Teacher Email</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for teacher in teachers %}
+                    {% for t in teacher %}
                     <tr>
-                        <td>{{teacher.teacher_id}}</td>
-                        <td>{{teacher.teacher_name}}</td>
-                        <td>{{teacher.teacher_email}}</td>
+                        <td>{{teacher.id}}</td>
+                        <td>{{teacher.first_name}}</td>
+                        <td>{{teacher.email}}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

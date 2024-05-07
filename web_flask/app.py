@@ -2,7 +2,7 @@
 """flask application"""
 
 from flask import Flask, session, render_template, request, url_for, redirect
-from forms import LoginForm, RegistrationForm, RegisterSchoolForm, DeleteForm, RegisterClassroomForm, ViewTeachersForm, PostAssignmentForm
+from forms import LoginForm, RegistrationForm, RegisterSchoolForm, DeleteForm, RegisterClassroomForm, PostAssignmentForm
 from flask import flash
 from models.engine.storage import DBStorage
 from models.admin_model import Admin
@@ -120,13 +120,11 @@ def delete_teacher():
 @app.route('/view_teacher/', methods=['POST', 'GET'], strict_slashes=False)
 def view_teacher():
     """view route"""
-    form = ViewTeachersForm()
-    if form.validate_on_submit():
+    if request.method == 'GET':
         teacher = db_storage.all('Teacher')
         for t in teacher:
             print(t)
-    return render_template('view_teacher.html', title='View Teacher', form=form)
-
+    return render_template('view_teacher.html', title='View Teacher')
 @app.route('/post_assignment/', methods=['POST', 'GET'], strict_slashes=False)
 def post_assignment():
     """post assignment route"""
