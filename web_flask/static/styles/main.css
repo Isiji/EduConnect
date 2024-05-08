@@ -1,7 +1,7 @@
 body {
-  background: #fafafa;
+  background: beige;
   color: #333333;
-  margin-top: 5rem;
+  margin-top: 7rem;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -9,7 +9,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .bg-steel {
-  background-color: #5f788a;
+  background-color: purple;
 }
 
 .site-header .navbar-nav .nav-link {
@@ -78,4 +78,77 @@ a.article-title:hover {
 
 .account-heading {
   font-size: 2.5rem;
+}
+
+.site-header .logo {
+  position: relative;
+  max-width: 60px;
+}
+.site-header ul {
+  position: relative;
+  display: flex;
+}
+.site-header ul li a {
+  list-style: none;
+}
+
+.site-header ul li a {
+  color: #fafafa;
+  font-weight: 400;
+  margin-right: 40px;
+  text-decoration: none;
+} 
+
+.content {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.content .textBox {
+  position: relative;
+  max-width: 600px;
+}
+
+.content .textBox h2 {
+  color: black;
+  font-size: 4em;
+  line-height: 1.5em;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.content .textBox h2 span {
+  font-size: 1em;
+  text-transform: capitalize;
+}
+
+.content .textBox a {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 8px 20px;
+  background: burlywood;
+  color: royalblue;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-decoration: none;
+  text-transform: capitalize;
+}
+
+.content .textBox a:hover {
+ color: aqua;
+ text-decoration: none; 
+}
+
+.content .imgBox {
+  width: 600px;
+  display: flex;
+  padding-right: 50px;
+
+}
+
+.content .imgBox img {
+  max-width: 700px;
 }

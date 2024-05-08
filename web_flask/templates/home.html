@@ -15,7 +15,7 @@
   <header class="site-header">
     <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
       <div class="container">
-        <a class="navbar-brand mr-4" href="/">EduConnect</a>
+        <a href="/"><img src="static/images/logo.jpg" class="logo"><br>EduConnect</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -47,18 +47,23 @@
             {% endfor %}
           {% endif %}
         {% endwith %}
-        {% block content %}{% endblock %}
-      </div>
-      <div class="col-md-4">
-        <div class="content-section">
-          <h3>Our Sidebar</h3>
-          <p class='text-muted'>More information about EduConnect is found here.
-            <ul class="list-group">
-              <li class="list-group-item list-group-item-light">Latest Posts</li>
-              <li class="list-group-item list-group-item-light">Announcements</li>
-            </ul>
-          </p>
+        {% block content %}
+        <div class="content">
+          <div class="textBox">
+            <h2>Welcome to EduConnect <br><span>Bridging education and home</span></h2>
+            <i>where learning meets laughter, and education finds its groove!</i>
+            <p>Ever wish homework could be as fun as a TikTok dance challenge? Or that school events had the excitement of a Netflix premiere? Well, at EduConnect, we're on a mission to make education a blast, one click at a time.</p>
+            <p>Forget the snooze-worthy school portals of yesteryear. With EduConnect, you'll breeze through assignments like a pro gamer on a winning streak, and parent-teacher meetings will feel more like catching up with old friends over coffee (or tea, we don't judge).</p>
+            <p>So buckle up, grab your favorite study buddy (yes, even if it's your pet rock), and let's embark on an educational adventure like no other. EduConnect: Where learning is anything but boring!</p>
+            <p>Ready to dive in? Let's make waves together!</p>
+            <a href="register_school"> <small>Register your School here</small></a>
+          </div>
+          <div class="imgBox">
+            <img src="static/images/homepage.jpg" class="homepage">
+
+          </div>
         </div>
+        {% endblock %}
       </div>
     </div>
   </main>
