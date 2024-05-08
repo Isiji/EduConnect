@@ -139,7 +139,8 @@ a.article-title:hover {
 
 .content .textBox a:hover {
  color: aqua;
- text-decoration: none; 
+ text-decoration: none;
+ transform: translate(-10px);
 }
 
 .content .imgBox {
@@ -151,4 +152,10 @@ a.article-title:hover {
 
 .content .imgBox img {
   max-width: 700px;
+  display: flex;
+  padding-right: 50px;
+  margin-top: 50px;
+  justify-content: flex-end;
 }
+
+
