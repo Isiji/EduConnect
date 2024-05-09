@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:200;300;400;500;700;800;900&display=swap');
 
 body {
-  background: beige;
+  background: lemonchiffon;
   color: #333333;
   margin-top: 7rem;
 }
@@ -157,5 +157,4 @@ a.article-title:hover {
 
 .content .imgBox img {
   max-width: 550px;
-  height: auto;
 }

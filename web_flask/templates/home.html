@@ -21,7 +21,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarToggle">
           <div class="navbar-nav mr-auto">
-            <a class="nav-item nav-link" href="/">About Us</a>
+            <a class="nav-item nav-link" href="/about">About Us</a>
             <a class="nav-item nav-link" href="/guides"> Guides</a>
             <a class="nav-item nav-link" href="/contact">Contact Us</a>
             <a class="nav-item nav-link" href="/teacher"> Testimonials</a>
@@ -48,7 +48,9 @@
           {% endif %}
         {% endwith %}
         {% block content %}
-        <div class="content">
+        <i><h2> The EduConnect Platform</h2></i>
+
+        <div class="content">      
           <div class="textBox">
               <h2>Why EduConnect? <br><span>Because learning should be fun!</span></h2>
                 <p>At EduConnect, we're on a mission to revolutionize the way we learn and teach. We believe that education should be a thrilling adventure, not a boring chore. That's why we've created a platform that combines the best of learning and entertainment to make education fun, engaging, and unforgettable. </p>
@@ -59,13 +61,52 @@
                   
                   <p>Join us on this epic educational journey and discover a world where learning is fun, engaging, and absolutely magical. Welcome to EduConnect – where knowledge meets adventure and every day is a new opportunity to learn, grow, and succeed. </p>
               <a href="guide"> <small>Learn how it works</small></a>
-  
+          
+              <h2>Registration Process</h2>
+              <p>Registering your school with EduConnect is easy and hassle-free. Simply follow these steps to get started:</p>
+              <ul>
+                <li>Click on the "Register Your School" button on the top right corner of the homepage.</li>
+                <li>Fill out the registration form with your school's details, including the name, address, and contact information.</li>
+                <li>Choose a username and password for your school's account.</li>
+                <li>Click on the "Submit" button to complete the registration process.</li>
+              </ul>
+            <div class="imgBox">
+              <img src="static/images/registrationpage.png" >
+
+            </div>
+            <h2>Teachers Panel functions</h2>
+            <p>Teachers can use the EduConnect platform to create interactive lessons, engage students in new and exciting ways, and inspire a love of learning that lasts a lifetime. Here are some of the key functions available to teachers:</p>
+            <ul>
+              <li>Create and manage classes, assignments, and tests</li>
+              <li>Track student progress and performance</li>
+              <li>Communicate with students and parents</li>
+              <li>Access a library of educational resources and materials</li>
+              <li>Collaborate with other teachers and share best practices</li>
+            </ul>
+            <div class="imgBox">
+              <img src="static/images/teacher_panel.png" >
+
           </div>
+          <h2>Parent Panel functions</h2>
+          <p>Parents can use the EduConnect platform to support their children's learning journey, track their progress, and connect with teachers to ensure their success. Here are some of the key functions available to parents:</p>
+          <ul>
+            <li>View student grades, assignments, and test scores</li>
+            <li>Communicate with teachers and other parents</li>
+            <li>Access educational resources and materials</li>
+            <li>Receive notifications and updates on student progress</li>
+            <li>Participate in school events and activities</li>
+          </ul>
           <div class="imgBox">
-            <img src="static/images/tips.jpeg" class="homepage">
- 
-          </div>
+            <img src="static/images/parent_panel.png" >
         </div>
+      </div>
+    <div class="imgBox">
+      <img src="static/images/tips.jpeg" class="homepage">
+
+    </div>
+  </div>
+</div>
+
         {% endblock %}
       </div>
     </div>
