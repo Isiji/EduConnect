@@ -14,6 +14,7 @@ from models.marks import Marks
 from models.assignment import Assignment
 from models.subject import Subject
 import sys
+from sqlalchemy.exc import SQLAlchemyError
 class DBStorage:
     """Database storage class"""
     __engine = None
@@ -28,44 +29,65 @@ class DBStorage:
             Base.metadata.drop_all(self.__engine)
         Base.metadata.create_all(self.__engine)
         self.__session = scoped_session(sessionmaker(bind=self.__engine))
-
     def all(self, cls=None):
         """Returns a dictionary of all objects"""
-        classes = [Admin, Teacher, Student, School, Classroom, Parent, Marks, Assignment, Subject]
         objects = {}
-        if cls:
-            if cls in classes:
-                for obj in self.__session.query(cls).all():
-                    key = "{}.{}".format(obj.__class__.__name__, obj.id)
+        try:
+            if cls:
+                query_result = self.__session.query(cls).all()
+                for obj in query_result:
+                    key = "{}.{}".format(cls.__name__, obj.id)
                     objects[key] = obj
-        else:
-            for c in classes:
-                for obj in self.__session.query(c).all():
-                    key = "{}.{}".format(obj.__class__.__name__, obj.id)
-                    objects[key] = obj
+            else:
+                classes = [Admin, Teacher, Student, School, Classroom, Parent, Marks, Assignment, Subject]
+                for cls in classes:
+                    query_result = self.__session.query(cls).all()
+                    for obj in query_result:
+                        key = "{}.{}".format(cls.__name__, obj.id)
+                        objects[key] = obj
+        except SQLAlchemyError as e:
+            print("An Error Occurred:", e)
         return objects
 
+    
     def new(self, obj):
         """Adds the object to the current database session"""
-        self.__session.add(obj)
+        try:
+            self.__session.add(obj)
+        except SQLAlchemyError as e:
+            print("An Error Occured:", e)
 
     def save(self):
         """Commits all changes to the database"""
-        self.__session.commit()
+        try:
+            self.__session.commit()
+        except SQLAlchemyError as e:
+            print("An Error Occured:", e)
+        
 
     def delete(self, obj=None):
         """Deletes the object from the current database session"""
-        if obj:
-            self.__session.delete(obj)
+        try:
+            if obj:
+                self.__session.delete(obj)
+        except SQLAlchemyError as e:
+            print("An Error Occured:", e)
 
     def reload(self):
         """Creates all tables in the database"""
-        Base.metadata.create_all(self.__engine)
-        session_factory = sessionmaker(bind=self.__engine)
-        self.__session = scoped_session(session_factory)
-        self.__session.configure(bind=self.__engine)
+        try:
+            Base.metadata.create_all(self.__engine)
+            session_factory = sessionmaker(bind=self.__engine)
+            self.__session = scoped_session(session_factory)
+            self.__session.configure(bind=self.__engine)
+        except SQLAlchemyError as e:
+            print("An Error Occured:", e)
+
 
     def close(self):
         """Closes the current session"""
-        self.__session.remove()
-        self.__session.close()
+        try:    
+            self.__session.remove()
+            self.__session.close()
+        except SQLAlchemyError as e:
+            print("An Error Occured:", e)

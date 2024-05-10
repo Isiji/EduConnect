@@ -6,6 +6,7 @@ from models.student import Student
 from models.teacher import Teacher
 from models.school import School
 from models.classroom import Classroom
+from models.assignment import Assignment
 
 #create a function that enters into admin session and allows admin to do his functions
 def admin_session():
@@ -23,7 +24,7 @@ def admin_session():
         print("6. View all students")
         print("7. View all teachers")
         print("8. View all schools")
-        print("9. View all classrooms")
+        print("9. View all assignments")
         print("10. Delete student")
         print("11. Delete teacher")
         print("12. Delete school")
@@ -68,7 +69,7 @@ def admin_session():
             School.view_all_schools()
 
         elif choice == 9:
-            Classroom.view_all_classrooms()
+            Assignment.view_assignments()
 
         elif choice == 10:
             student = Student()

@@ -12,6 +12,7 @@ from models.student import Student
 from models.school import School
 from models.classroom import Classroom
 from models.assignment import Assignment
+import logging
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret_key'
@@ -20,25 +21,46 @@ db_storage = DBStorage()
 
 
 @app.route('/')
-@app.route('/home/', methods=['POST', 'GET'], strict_slashes=False)
+@app.route('/home', methods=['POST', 'GET'], strict_slashes=False)
 def home():
     """home route"""
     return render_template('home.html')
 
-@app.route('/login/', methods=['POST', 'GET'], strict_slashes=False)
+#create a login route that first checks if the user is in the database then directs the user to the specific page
+@app.route('/login', methods=['POST', 'GET'], strict_slashes=False)
 def login():
     """login route"""
     form = LoginForm()
     if form.validate_on_submit():
-        session['email'] = form.email.data
-        session['password'] = form.password.data
-        flash('You have been logged in!', 'success')
-        return redirect(url_for('home'))
-    else:
-        flash('Login Unsuccessful. Please check email and password', 'danger')
+        email = form.email.data
+        password = form.password.data
+        admin = db_storage.all('Admin')
+        for a in admin:
+            if a.email == email and bycrpt.check_password_hash(a.password, password):
+                session['email'] = email
+                session['password'] = password
+                return redirect(url_for('admin'))
+        teacher = db_storage.all('Teacher')
+        for t in teacher:
+            if t.email == email and bycrpt.check_password_hash(t.password, password):
+                session['email'] = email
+                session['password'] = password
+                return redirect(url_for('teacher'))
+        student = db_storage.all('Student')
+        for s in student:
+            if s.email == email and bycrpt.check_password_hash(s.password, password):
+                session['email'] = email
+                session['password'] = password
+                return redirect(url_for('student'))
+        school = db_storage.all('School')
+        for s in school:
+            if s.email == email and bycrpt.check_password_hash(s.password, password):
+                session['email'] = email
+                session['password'] = password
+                return redirect(url_for('school'))
     return render_template('login.html', title='Login', form=form)
 
-@app.route('/register_admin/', methods=['POST', 'GET'], strict_slashes=False)
+@app.route('/register_admin', methods=['POST', 'GET'], strict_slashes=False)
 def register_admin():
     """register route"""
     form = RegistrationForm()
@@ -51,7 +73,7 @@ def register_admin():
         return redirect(url_for('login'))
     return render_template('register_admin.html', title='Register', form=form)
 
-@app.route('/register_teacher/', methods=['POST', 'GET'], strict_slashes=False)
+@app.route('/register_teacher', methods=['POST', 'GET'], strict_slashes=False)
 def register_teacher():
     """register route"""
     form = RegistrationForm()
@@ -64,7 +86,7 @@ def register_teacher():
         return redirect(url_for('login'))
     return render_template('register_teacher.html', title='Register Teacher', form=form)
 #should delete from database
-@app.route('/register_student/', methods=['POST', 'GET'], strict_slashes=False)
+@app.route('/register_student', methods=['POST', 'GET'], strict_slashes=False)
 def register_student():
     """register route"""
     form = RegistrationForm()
@@ -79,7 +101,7 @@ def register_student():
 
 
 
-@app.route('/register_school/', methods=['POST', 'GET'], strict_slashes=False)
+@app.route('/register_school', methods=['POST', 'GET'], strict_slashes=False)
 def register_school():
     """register route"""
     form = RegisterSchoolForm()
@@ -92,7 +114,7 @@ def register_school():
         return redirect(url_for('login'))
     return render_template('register_school.html', title='Register Your School', form=form)
 
-@app.route('/register_classroom/', methods=['POST', 'GET'], strict_slashes=False)
+@app.route('/register_classroom', methods=['POST', 'GET'], strict_slashes=False)
 def register_classroom():
     """register route"""
     form = RegisterClassroomForm()
@@ -103,7 +125,7 @@ def register_classroom():
         flash(f'Classroom created for {form.name.data}!', 'success')
         return redirect(url_for('home'))
     return render_template('register_classroom.html', title='Register Classroom', form=form)
-@app.route('/delete_teacher/', methods=['POST', 'GET'], strict_slashes=False)
+@app.route('/delete_teacher', methods=['POST', 'GET'], strict_slashes=False)
 def delete_teacher():
     """delete route"""
     form = DeleteForm()
@@ -117,15 +139,15 @@ def delete_teacher():
                 return redirect(url_for('login'))
     return render_template('delete_teacher.html', title='Delete Teacher', form=form)
 
-@app.route('/view_teacher/', methods=['POST', 'GET'], strict_slashes=False)
+@app.route('/view_teacher', methods=['POST', 'GET'], strict_slashes=False)
 def view_teacher():
     """view route"""
     if request.method == 'GET':
-        teacher = db_storage.all('Teacher')
-        for t in teacher:
-            print(t)
-    return render_template('view_teacher.html', title='View Teacher')
-@app.route('/post_assignment/', methods=['POST', 'GET'], strict_slashes=False)
+        teachers_data = db_storage.all(Teacher)
+        teachers = list(teachers_data.values())
+        print(teachers)
+        return render_template('view_teacher.html', title='View Teacher', teachers=teachers)
+@app.route('/post_assignment', methods=['POST', 'GET'], strict_slashes=False)
 def post_assignment():
     """post assignment route"""
     form = PostAssignmentForm()
@@ -134,18 +156,19 @@ def post_assignment():
         db_storage.new(assignment)
         db_storage.save()
         flash(f'Assignment created for {form.assignment_name.data}!', 'success')
-        return redirect(url_for('home'))
+        return redirect(url_for('teacher'))
     return render_template('post_assignment.html', title='Post Assignment', form=form)
 
-@app.route('/view_assignment/', methods=['POST', 'GET'], strict_slashes=False)
+#create a route that allows the user to view the assignments that have been posted, query the database without using the all method
+@app.route('/view_assignment', methods=['POST', 'GET'], strict_slashes=False)
 def view_assignment():
     """view assignment route"""
-    assignment = db_storage.all('Assignment')
-    for a in assignment:
-        print(a)
+    assignments = db_storage.all('Assignment')
     return render_template('view_assignment.html', title='View Assignment')
 
-@app.route('/view_student/', methods=['POST', 'GET'], strict_slashes=False)
+
+
+@app.route('/view_student', methods=['POST', 'GET'], strict_slashes=False)
 def view_student():
     """view student route"""
     
@@ -154,46 +177,46 @@ def view_student():
         print(s)
     return render_template('view_student.html', title='View Student')
 
-@app.route('/view_classroom/', methods=['POST', 'GET'], strict_slashes=False)
+@app.route('/view_classroom', methods=['POST', 'GET'], strict_slashes=False)
 def view_classroom():
     """view classroom route"""
     classroom = db_storage.all('Classroom')
     for c in classroom:
         print(c)
     return render_template('view_classroom.html', title='View Classroom')
-@app.route('/logout/', methods=['POST', 'GET'], strict_slashes=False)
+@app.route('/logout', methods=['POST', 'GET'], strict_slashes=False)
 def logout():
     """logout route"""
     session.pop('email', None)
     session.pop('password', None)
     return redirect(url_for('home'))
 
-@app.route('/about/', methods=['POST', 'GET'], strict_slashes=False)
+@app.route('/about', methods=['POST', 'GET'], strict_slashes=False)
 def about():
     """about route"""
     return render_template('about.html')
 
-@app.route('/contact/', methods=['POST', 'GET'], strict_slashes=False)
+@app.route('/contact', methods=['POST', 'GET'], strict_slashes=False)
 def contact():
     """contact route"""
     return render_template('contact.html')
 
 
-@app.route('/admin/', methods=['POST', 'GET'], strict_slashes=False)
+@app.route('/admin', methods=['POST', 'GET'], strict_slashes=False)
 def admin():
     """admin route"""
     return render_template('admin.html')
-@app.route('/teacher/', methods=['POST', 'GET'], strict_slashes=False)
+@app.route('/teacher', methods=['POST', 'GET'], strict_slashes=False)
 def teacher():
     """teacher route"""
     return render_template('teacher.html')
 
-@app.route('/student/', methods=['POST', 'GET'], strict_slashes=False)
+@app.route('/student', methods=['POST', 'GET'], strict_slashes=False)
 def student():
     """student route"""
     return render_template('student.html')
 
-@app.route('/parent/', methods=['POST', 'GET'], strict_slashes=False)
+@app.route('/parent', methods=['POST', 'GET'], strict_slashes=False)
 def parent():
     """parent route"""
     return render_template('parent.html')

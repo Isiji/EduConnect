@@ -7,7 +7,7 @@ import uuid
 class Teacher(BaseModel, Base):
     """Teacher model"""
     __tablename__ = 'teachers'
-    id = Column(String(120), nullable=False, primary_key=True, unique=True)
+    id = Column(String(120), nullable=False, primary_key=True, default=uuid.uuid4().hex)
     first_name = Column(String(128), nullable=False)
     last_name = Column(String(128), nullable=False)
     email = Column(String(128), nullable=False, unique=True)
@@ -15,13 +15,16 @@ class Teacher(BaseModel, Base):
     password = Column(String(128), nullable=False)
 
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, first_name, last_name, email, password, image_file='default.jpg'):
         """initializes the teacher"""
-        super().__init__(*args, **kwargs)
-
+        self.first_name = first_name
+        self.last_name = last_name
+        self.email = email
+        self.image_file = image_file
+        self.password = password
     def __str__(self):
         """string representation of the teacher"""
-        return "Teacher: {} {}".format(self.first_name, self.last_name)
+        return "Teacher: {} {}".format(self.id, self.first_name, self.last_name,self.email)
 
     @staticmethod
     def register_teacher():

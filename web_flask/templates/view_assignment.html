@@ -15,15 +15,17 @@
                         <th>Assignment Name</th>
                         <th>Assignment Description</th>
                         <th>Assignment Due Date</th>
+                        <th>Classroom</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for assignment in assignments %}
+                    {% for assignment_id, assignment in assignments.items() %}
                     <tr>
-                        <td>{{assignment.assignment_id}}</td>
+                        <td>{{assignment_id}}</td>
                         <td>{{assignment.assignment_name}}</td>
-                        <td>{{assignment.assignment_description}}</td>
-                        <td>{{assignment.assignment_due_date}}</td>
+                        <td>{{assignment.description}}</td>
+                        <td>{{assignment.due_date}}</td>
+                        <td>{{assignment.classroom}}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
