@@ -171,10 +171,10 @@ def view_assignment():
 def view_student():
     """view student route"""
     
-    student = db_storage.all('Student')
-    for s in student:
-        print(s)
-    return render_template('view_student.html', title='View Student')
+    student_data = db_storage.all(Student)
+    students = list(student_data.values())
+    print(students)
+    return render_template('view_student.html', title='View Student', students=students)
 
 @app.route('/view_classroom', methods=['POST', 'GET'], strict_slashes=False)
 def view_classroom():
