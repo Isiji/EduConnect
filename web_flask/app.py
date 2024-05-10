@@ -145,7 +145,6 @@ def view_teacher():
     if request.method == 'GET':
         teachers_data = db_storage.all(Teacher)
         teachers = list(teachers_data.values())
-        print(teachers)
         return render_template('view_teacher.html', title='View Teacher', teachers=teachers)
 @app.route('/post_assignment', methods=['POST', 'GET'], strict_slashes=False)
 def post_assignment():
@@ -163,9 +162,9 @@ def post_assignment():
 @app.route('/view_assignment', methods=['POST', 'GET'], strict_slashes=False)
 def view_assignment():
     """view assignment route"""
-    assignments = db_storage.all('Assignment')
-    return render_template('view_assignment.html', title='View Assignment')
-
+    assignment_data = db_storage.all(Assignment)
+    assignments = list(assignment_data.values())
+    return render_template('view_assignment.html', title='View Assignment', assignments=assignments)
 
 
 @app.route('/view_student', methods=['POST', 'GET'], strict_slashes=False)
