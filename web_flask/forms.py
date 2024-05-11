@@ -87,6 +87,28 @@ class RegisterSchoolForm(FlaskForm):
                                      validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Register School')
 
+    def validate_email(self, email):
+        from models.engine.storage import DBStorage
+        db_storage = DBStorage()
+        from models.admin_model import Admin
+        from models.teacher import Teacher
+        from models.student import Student
+        from models.parent import Parent
+        from models.school import School
+
+        print("debug point 1")
+        user_data = {}
+        for model_class in [Admin, Teacher, Student, Parent, School]:
+            user_data.update(db_storage.all(model_class))
+            
+
+        print("debug point 2")
+        print("the data generated is:", user_data)
+        for user in user_data.values():
+            if user.email == email.data:
+                raise ValidationError('That email is taken. Please choose a different one.')
+    
+
     #create a class for a teacher to post assignments
 class PostAssignmentForm(FlaskForm):
     assignment_name = StringField('Assignment Name', validators=[DataRequired()])
