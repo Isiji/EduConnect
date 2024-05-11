@@ -12,7 +12,7 @@ from models.student import Student
 from models.school import School
 from models.classroom import Classroom
 from models.assignment import Assignment
-from flask_login import login_user, current_user, logout_user, login_required
+from flask_login import  LoginManager, login_user, current_user, logout_user, login_required
 
 
 app = Flask(__name__)
