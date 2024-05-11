@@ -33,7 +33,7 @@ class DBStorage:
         """Returns a dictionary of all objects"""
         objects = {}
         try:
-            if cls:
+            if cls is not None:
                 query_result = self.__session.query(cls).all()
                 for obj in query_result:
                     key = "{}.{}".format(cls.__name__, obj.id)

@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-
+from sqlalchemy import text
 
 class RegistrationForm(FlaskForm):
     first_name = StringField('First Name',
@@ -19,10 +19,28 @@ class RegistrationForm(FlaskForm):
     def validate_email(self, email):
         from models.engine.storage import DBStorage
         db_storage = DBStorage()
-        admins = db_storage.all('Admin')
-        for admin in admins.values():
-            if admin.email == email.data:
+        from models.admin_model import Admin
+        from models.teacher import Teacher
+        from models.student import Student
+        from models.parent import Parent
+        from models.school import School
+
+        print("debug point 1")
+        user_data = {}
+        for model_class in [Admin, Teacher, Student, Parent, School]:
+            user_data.update(db_storage.all(model_class))
+            
+
+        print("debug point 2")
+        print("the data generated is:", user_data)
+        for user in user_data.values():
+            if user.email == email.data:
                 raise ValidationError('That email is taken. Please choose a different one.')
+
+                    
+
+
+
 #create a form to post an assignment
 class PostAssignmentForm(FlaskForm):
     name = StringField('Name',
