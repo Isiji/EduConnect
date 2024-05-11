@@ -64,6 +64,9 @@ class DBStorage:
         except SQLAlchemyError as e:
             print("An Error Occured:", e)
         
+    def get(self, model_class, object_id):
+            """Retrieve an object from the database by its ID"""
+            return self.__session.query(model_class).filter_by(id=object_id).first()
 
     def delete(self, obj=None):
         """Deletes the object from the current database session"""

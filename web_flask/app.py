@@ -47,6 +47,8 @@ def login():
                 elif isinstance(user, Student):
                     return redirect(url_for('student'))
                 elif isinstance(user, School):
+                    session['school_id'] = user.id
+                    print("school id is stored in session:", session['school_id'])
                     return redirect(url_for('school'))
         flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('login.html', title='Login', form=form)
@@ -188,7 +190,19 @@ def about():
 @app.route('/school', methods=['POST', 'GET'], strict_slashes=False)
 def school():
     """school route"""
-    return render_template('school.html')
+    if 'school_id' in session:
+        school_id = session['school_id']
+        school = db_storage.get(School, school_id)
+
+        if school:
+            school_name = school.name
+            return render_template('school.html', school_name=school_name, school_id=school_id)
+        else:
+            print("Error, school not found")
+            return "Error, school not found"
+    else:
+        print("Error number 2, school not found")
+        return "Error, school not found"
 
 @app.route('/contact', methods=['POST', 'GET'], strict_slashes=False)
 def contact():
