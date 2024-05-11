@@ -12,7 +12,8 @@ from models.student import Student
 from models.school import School
 from models.classroom import Classroom
 from models.assignment import Assignment
-import logging
+from flask_login import login_user, current_user, logout_user, login_required
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret_key'
@@ -32,34 +33,23 @@ def login():
     """login route"""
     form = LoginForm()
     if form.validate_on_submit():
-        email = form.email.data
-        password = form.password.data
-        admin = db_storage.all('Admin')
-        for a in admin:
-            if a.email == email and bycrpt.check_password_hash(a.password, password):
-                session['email'] = email
-                session['password'] = password
-                return redirect(url_for('admin'))
-        teacher = db_storage.all('Teacher')
-        for t in teacher:
-            if t.email == email and bycrpt.check_password_hash(t.password, password):
-                session['email'] = email
-                session['password'] = password
-                return redirect(url_for('teacher'))
-        student = db_storage.all('Student')
-        for s in student:
-            if s.email == email and bycrpt.check_password_hash(s.password, password):
-                session['email'] = email
-                session['password'] = password
-                return redirect(url_for('student'))
-        school = db_storage.all('School')
-        for s in school:
-            if s.email == email and bycrpt.check_password_hash(s.password, password):
-                session['email'] = email
-                session['password'] = password
-                return redirect(url_for('school'))
+        user_data = {}
+        for model_class in [Admin, Teacher, Student, School]:
+            user_data.update(db_storage.all(model_class))
+        for user in user_data.values():
+            if user.email == form.email.data and bycrpt.check_password_hash(user.password, form.password.data):
+                session['email'] = form.email.data
+                session['password'] = form.password.data
+                if isinstance(user, Admin):
+                    return redirect(url_for('admin'))
+                elif isinstance(user, Teacher):
+                    return redirect(url_for('teacher'))
+                elif isinstance(user, Student):
+                    return redirect(url_for('student'))
+                elif isinstance(user, School):
+                    return redirect(url_for('school'))
+        flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('login.html', title='Login', form=form)
-
 @app.route('/register_admin', methods=['POST', 'GET'], strict_slashes=False)
 def register_admin():
     """register route"""
@@ -110,8 +100,8 @@ def register_school():
         school = School(email=form.email.data, password=hashed_password, name=form.name.data, address=form.address.data, county=form.county.data, phone=form.phone.data, website=form.website.data)
         db_storage.new(school)
         db_storage.save()
-        flash(f'Account created for {form.email.data}!', 'success')
-        return redirect(url_for('login'))
+        flash(f'Account created for {form.name.data}!', 'success')
+        return redirect(url_for('school'))
     return render_template('register_school.html', title='Register Your School', form=form)
 
 @app.route('/register_classroom', methods=['POST', 'GET'], strict_slashes=False)
@@ -194,6 +184,11 @@ def logout():
 def about():
     """about route"""
     return render_template('about.html')
+
+@app.route('/school', methods=['POST', 'GET'], strict_slashes=False)
+def school():
+    """school route"""
+    return render_template('school.html')
 
 @app.route('/contact', methods=['POST', 'GET'], strict_slashes=False)
 def contact():
