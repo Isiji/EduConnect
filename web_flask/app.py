@@ -2,7 +2,7 @@
 """flask application"""
 
 from flask import Flask, session, render_template, request, url_for, redirect
-from forms import LoginForm, RegistrationForm, RegisterSchoolForm, DeleteForm, RegisterClassroomForm, PostAssignmentForm
+from forms import LoginForm, RegistrationForm, RegisterSchoolForm, DeleteForm, RegisterClassroomForm, PostAssignmentForm, DeleteClassroomForm
 from flask import flash
 from models.engine.storage import DBStorage
 from models.admin_model import Admin
@@ -115,7 +115,7 @@ def register_classroom():
         db_storage.new(classroom)
         db_storage.save()
         flash(f'Classroom created for {form.name.data}!', 'success')
-        return redirect(url_for('home'))
+        return redirect(url_for('admin'))
     return render_template('register_classroom.html', title='Register Classroom', form=form)
 @app.route('/delete_teacher', methods=['POST', 'GET'], strict_slashes=False)
 def delete_teacher():
@@ -168,13 +168,29 @@ def view_student():
     print(students)
     return render_template('view_student.html', title='View Student', students=students)
 
+#create route for view_classsroom and use paginate to display the data
 @app.route('/view_classroom', methods=['POST', 'GET'], strict_slashes=False)
 def view_classroom():
     """view classroom route"""
-    classroom = db_storage.all('Classroom')
-    for c in classroom:
-        print(c)
-    return render_template('view_classroom.html', title='View Classroom')
+    classroom_data = db_storage.all(Classroom)
+    classrooms = list(classroom_data.values())
+    return render_template('view_classroom.html', title='View Classroom', classrooms=classrooms)
+
+#create route for deleting a classroom
+@app.route('/delete_classroom', methods=['POST', 'GET'], strict_slashes=False)
+def delete_classroom():
+    """delete classroom route"""
+    form = DeleteClassroomForm()
+    if form.validate_on_submit():
+        classroom = db_storage.all(Classroom).values()
+        for c in classroom:
+            if c.name == form.name.data:
+                db_storage.delete(c)
+                db_storage.save()
+                flash(f'Classroom deleted for {form.name.data}!', 'success')
+                return redirect(url_for('admin'))
+    return render_template('delete_classroom.html', title='Delete Classroom', form=form)
+
 @app.route('/logout', methods=['POST', 'GET'], strict_slashes=False)
 def logout():
     """logout route"""
@@ -228,6 +244,9 @@ def student():
 def parent():
     """parent route"""
     return render_template('parent.html')
-
+@app.route('/account', methods=['POST', 'GET'], strict_slashes=False)
+def account():
+    """account route"""
+    return render_template('account.html')
 if __name__ == '__main__':
     app.run(host='localhost', port=5000, debug=True)

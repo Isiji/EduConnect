@@ -54,7 +54,14 @@ class RegisterClassroomForm(FlaskForm):
     name = StringField('Name',
                            validators=[DataRequired(), Length(min=2, max=20)])
     submit = SubmitField('Register Class')
-
+    def validate_name(self, name):
+        from models.engine.storage import DBStorage
+        db_storage = DBStorage()
+        from models.classroom import Classroom
+        classrooms = db_storage.all(Classroom)
+        for classroom in classrooms.values():
+            if classroom.name == name.data:
+                raise ValidationError('That classroom is already registered. Please choose a different one.')
 #class where admin can view all teachers
 class ViewTeachersForm(FlaskForm):
     submit = SubmitField('View Teachers')
@@ -121,4 +128,7 @@ class PostAssignmentForm(FlaskForm):
 class ViewStudentsForm(FlaskForm):
     submit = SubmitField('View Students')
 
-    #class to view all parents
+    #class to delete a classroom
+class DeleteClassroomForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    submit = SubmitField('Delete Classroom')

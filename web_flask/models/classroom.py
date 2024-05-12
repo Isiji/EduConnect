@@ -10,7 +10,7 @@ class Classroom(BaseModel, Base):
     """Class model"""
     __tablename__ = 'classes'
     id = Column(String(120), nullable=False, primary_key=True, unique=True)
-    name = Column(String(128), nullable=False)
+    name = Column(String(128), nullable=False, unique=True)
     
 
     def __init__(self, *args, **kwargs):
