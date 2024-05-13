@@ -9,13 +9,13 @@ from sqlalchemy import MetaData
 import models.engine
 import models.engine.storage
 
-time = "%Y-%m-%dT%H:%M:%S.%f"
+time = "%Y-%m-%dT%H:%M"
 
 Base = declarative_base()
 
 class BaseModel:
     """This class defines common attributes/methods for other classes"""
-    id = Column(String(60), primary_key=True)
+    id = Column(String(128), nullable=False, primary_key=True, unique=True, default=str(uuid.uuid4())[:6])
     created_at = Column(DateTime, default=datetime.utcnow())
     updated_at = Column(DateTime, default=datetime.utcnow())
 

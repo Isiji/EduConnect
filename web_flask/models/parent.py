@@ -4,16 +4,18 @@
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 from models.base_model import BaseModel, Base
-
+import uuid
 class Parent(BaseModel, Base):
     """Parent model"""
     __tablename__ = 'parents'
-    id = Column(String(25), nullable=False, primary_key=True, unique=True)
+    parent_id = Column(String(128), nullable=False, primary_key=True, unique=True, default='PA' + str(uuid.uuid4())[:6])
     first_name = Column(String(128), nullable=False)
     last_name = Column(String(128), nullable=False)
     email = Column(String(128), nullable=False, unique=True)
     image_file = Column(String(128), nullable=False, default='default.jpg')    
     password = Column(String(128), nullable=False)
+    school_id = Column(String(128), ForeignKey('schools.id'), nullable=False)
+    school = relationship('School', back_populates='parents')
 
     
     def __init__(self, *args, **kwargs):
@@ -24,14 +26,3 @@ class Parent(BaseModel, Base):
         """string representation of the parent"""
         return "Parent: {} {}".format(self.first_name, self.last_name)
     
-    @classmethod
-    def register_parent(cls):
-        """register a parent"""
-        print("Register a parent")
-        first_name = input("Enter first name: ")
-        last_name = input("Enter last name: ")
-        email = input("Enter email: ")
-        password = input("Enter password: ")
-
-        parent = cls(first_name=first_name, last_name=last_name, email=email, password=password)
-        parent.save()

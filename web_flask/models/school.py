@@ -1,22 +1,28 @@
 #!/usr/bin/python3
 """School module for the school model"""
 import models
-from sqlalchemy import Column, String, ForeignKey, Integer
+from sqlalchemy import Column, String, ForeignKey, Integer, Index
 from sqlalchemy.orm import relationship
 from models.base_model import BaseModel, Base
 import uuid
 
+
 class School(BaseModel, Base):
     """School model"""
     __tablename__ = 'schools'
-    id = Column(String(120), primary_key=True, default=lambda: str(uuid.uuid4()))
+    id = Column(String(128), nullable=False, primary_key=True, unique=True, default='SC' + str(uuid.uuid4())[:6])
     name = Column(String(128), nullable=False)
     address = Column(String(128), nullable=False)
     county = Column(String(128))
     phone = Column(String(128), nullable=False)
     email = Column(String(128), nullable=False, unique=True)
-    website = Column(String(128))
+    website = Column(String(128), nullable=True)
     password = Column(String(128), nullable=False)
+    admins = relationship('Admin', back_populates='school')
+    classes = relationship('Classroom', back_populates='school')
+    parents = relationship('Parent', back_populates='school')
+    students = relationship('Student', back_populates='school')
+    teachers = relationship('Teacher', back_populates='school')
     
 
 
@@ -29,22 +35,3 @@ class School(BaseModel, Base):
         return "School: {}".format(self.name)
     
     
-    @staticmethod
-    def register_school():
-        """registers a school"""
-        from models.engine.storage import DBStorage
-        db_storage = DBStorage()
-        short_id = str(uuid.uuid4())[:6]
-        school = School(
-            id = short_id,
-            name = input("Enter school name: "),
-            address = input("Enter school address: "),
-            county = input("Enter county: "),
-            phone = input("Enter phone: "),
-            email = input("Enter email: "),
-            website = input("Enter website: ")
-        )
-        db_storage.new(school)
-        db_storage.save()
-
-        print("School registered successfully")

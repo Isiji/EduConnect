@@ -4,17 +4,17 @@
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 from models.base_model import BaseModel, Base
+import uuid
 
 class Assignment(BaseModel, Base):
     """Assignment model"""
     __tablename__ = 'assignments'
-    id = Column(String(100), nullable=False, primary_key=True, unique=True)
+    assignment_id = Column(String(128), nullable=False, primary_key=True, unique=True, default='AS' + str(uuid.uuid4())[:6], index=True)
     assignment_name = Column(String(128), nullable=False)
-    classroom = Column(String(128), nullable=False)
     due_date = Column(String(128), nullable=False)
     description = Column(String(128), nullable=False)
-
-
+    classroom_id = Column(String(128), ForeignKey('classes.id'), nullable=False, index=True)    
+    classroom = relationship('Classroom', back_populates='assignments')
     def __init__(self, *args, **kwargs):
         """initializes the assignment"""
         super().__init__(*args, **kwargs)
@@ -23,13 +23,3 @@ class Assignment(BaseModel, Base):
         """string representation of the assignment"""
         return "Assignment: {}".format(self.name)
     
-    
-    @staticmethod
-    def view_assignments():
-        """view all assignments"""
-        from models.engine.storage import DBStorage
-        db_storage = DBStorage()
-        
-        assignments = db_storage.all('Assignment')
-        for assignment in assignments:
-            print(assignment)

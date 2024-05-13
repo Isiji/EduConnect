@@ -13,7 +13,7 @@ from models.school import School
 from models.classroom import Classroom
 from models.assignment import Assignment
 from flask_login import  LoginManager, login_user, current_user, logout_user, login_required
-
+import logging
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret_key'
@@ -103,7 +103,7 @@ def register_school():
         db_storage.new(school)
         db_storage.save()
         flash(f'Account created for {form.name.data}!', 'success')
-        return redirect(url_for('school'))
+        return redirect(url_for('login'))
     return render_template('register_school.html', title='Register Your School', form=form)
 
 @app.route('/register_classroom', methods=['POST', 'GET'], strict_slashes=False)
@@ -214,11 +214,11 @@ def school():
             school_name = school.name
             return render_template('school.html', school_name=school_name, school_id=school_id)
         else:
-            print("Error, school not found")
-            return "Error, school not found"
+            logging.error(f"School not found with ID: {school_id}")
+            return render_template('error.html', message="School not found"), 404
     else:
-        print("Error number 2, school not found")
-        return "Error, school not found"
+        logging.error("Error number 2, school ID not found in session")
+        return render_template('error.html', message="School ID not found in session"), 404
 
 @app.route('/contact', methods=['POST', 'GET'], strict_slashes=False)
 def contact():

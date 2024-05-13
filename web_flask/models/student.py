@@ -2,17 +2,20 @@
 """Student module for the student model"""
 
 from sqlalchemy import Column, String, ForeignKey
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, relationship
 from models.base_model import BaseModel, Base
 import uuid
+
 class Student(BaseModel, Base):
     """Student model"""
     __tablename__ = 'students'
-    id = Column(String(70), nullable=False, primary_key=True, default=str(uuid.uuid4()))
+    id = Column(String(128), nullable=False, primary_key=True, unique=True, default='ST' + str(uuid.uuid4())[:6])
     first_name = Column(String(128), nullable=False)
     last_name = Column(String(128), nullable=False)
     email = Column(String(128), nullable=False, unique=True)
     password = Column(String(128), nullable=False)
+    school_id = Column(String(128), ForeignKey('schools.id'), nullable=False)
+    school = relationship('School', back_populates='students')
 
     def __init__(self, first_name, last_name, email, password, ):
         """initializes the student"""
