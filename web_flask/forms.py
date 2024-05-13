@@ -44,16 +44,18 @@ class RegistrationForm(FlaskForm):
 
 #create a form to post an assignment
 class PostAssignmentForm(FlaskForm):
-    name = StringField('Name',
+    assignment_name = StringField('Assignment Name',
                            validators=[DataRequired(), Length(min=2, max=20)])
     due_date = StringField('Due Date', validators=[DataRequired()])
     description = StringField('Description', validators=[DataRequired()])
+    classroom_name = StringField('Classroom Name', validators=[DataRequired()])
     submit = SubmitField('Post Assignment')
 
 #class to create a form to register a classroom
 class RegisterClassroomForm(FlaskForm):
     name = StringField('Name',
                            validators=[DataRequired(), Length(min=2, max=20)])
+    school_id = StringField('School ID', validators=[DataRequired()])
     submit = SubmitField('Register Class')
     def validate_name(self, name):
         from models.engine.storage import DBStorage
@@ -122,7 +124,7 @@ class PostAssignmentForm(FlaskForm):
     assignment_name = StringField('Assignment Name', validators=[DataRequired()])
     due_date = StringField('Due Date', validators=[DataRequired()])
     description = StringField('Description', validators=[DataRequired()])
-    classroom = StringField('Classroom', validators=[DataRequired()])
+    classroom_name = StringField('Classroom', validators=[DataRequired()])
     submit = SubmitField('Post Assignment')
 
     #class to view all students

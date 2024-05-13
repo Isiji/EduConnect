@@ -52,45 +52,75 @@ def login():
                     return redirect(url_for('school'))
         flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('login.html', title='Login', form=form)
+#admin registration route that checks id school_id entered is present in the database, then creates a new admin and assigns to that school
 @app.route('/register_admin', methods=['POST', 'GET'], strict_slashes=False)
 def register_admin():
-    """register route"""
+    """register admin"""
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bycrpt.generate_password_hash(form.password.data).decode('utf-8')
-        admin = Admin(email=form.email.data, password=hashed_password, first_name=form.first_name.data, last_name=form.last_name.data)
-        db_storage.new(admin)
-        db_storage.save()
-        flash(f'Account created for {form.email.data}!', 'success')
-        return redirect(url_for('login'))
-    return render_template('register_admin.html', title='Register', form=form)
+        school = db_storage.get(School, form.school_id.data)
+        if school:
+            admin = Admin(email=form.email.data, password=hashed_password, first_name=form.first_name.data, last_name=form.last_name.data, school=school)
+            db_storage.new(admin)
+            db_storage.save()
+            flash(f'Account created for {form.email.data}!', 'success')
+            return redirect(url_for('login'))
+        else:
+            flash(f'School ID not found', 'danger')
+    return render_template('register_admin.html', title='Register Admin', form=form)
 
+#create a route that registers a teacher to a school, check if the school_id is present in the database
 @app.route('/register_teacher', methods=['POST', 'GET'], strict_slashes=False)
 def register_teacher():
-    """register route"""
+    """register teacher"""
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bycrpt.generate_password_hash(form.password.data).decode('utf-8')
-        teacher = Teacher(email=form.email.data, password=hashed_password, first_name=form.first_name.data, last_name=form.last_name.data)
-        db_storage.new(teacher)
-        db_storage.save()
-        flash(f'Account created for {form.email.data}!', 'success')
-        return redirect(url_for('login'))
+        school = db_storage.get(School, form.school_id.data)
+        if school:
+            teacher = Teacher(email=form.email.data, password=hashed_password, first_name=form.first_name.data, last_name=form.last_name.data, school=school)
+            db_storage.new(teacher)
+            db_storage.save()
+            flash(f'Account created for {form.email.data}!', 'success')
+            return redirect(url_for('login'))
+        else:
+            flash(f'School ID not found', 'danger')
     return render_template('register_teacher.html', title='Register Teacher', form=form)
-#should delete from database
+
+#create a route that allows the user to delete a teacher from the database, use the delete method from the storage class to delete the teacher
+@app.route('/delete_teacher', methods=['POST', 'GET'], strict_slashes=False)
+def delete_teacher():
+    """delete route"""
+    form = DeleteForm()
+    if form.validate_on_submit():
+        teacher = db_storage.all('Teacher')
+        for t in teacher:
+            if t.email == form.email.data:
+                db_storage.delete(t)
+                db_storage.save()
+                flash(f'Account deleted for {form.email.data}!', 'success')
+                return redirect(url_for('login'))
+    return render_template('delete_teacher.html', title='Delete Teacher', form=form)
+
+
+#create a route for registering a student to a school, check if the school_id is present in the database
 @app.route('/register_student', methods=['POST', 'GET'], strict_slashes=False)
 def register_student():
-    """register route"""
+    """register student"""
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bycrpt.generate_password_hash(form.password.data).decode('utf-8')
-        student = Student(email=form.email.data, password=hashed_password, first_name=form.first_name.data, last_name=form.last_name.data)
-        db_storage.new(student)
-        db_storage.save()
-        flash(f'Account created for {form.email.data}!', 'success')
-        return redirect(url_for('login'))
-    return render_template('register_student.html', title='Register', form=form)
-
+        school = db_storage.get(School, form.school_id.data)
+        if school:
+            student = Student(email=form.email.data, password=hashed_password, first_name=form.first_name.data, last_name=form.last_name.data, school=school)
+            db_storage.new(student)
+            db_storage.save()
+            flash(f'Account created for {form.email.data}!', 'success')
+            return redirect(url_for('login'))
+        else:
+            flash(f'School ID not found', 'danger')
+    return render_template('register_student.html', title='Register Student', form=form)
 
 
 @app.route('/register_school', methods=['POST', 'GET'], strict_slashes=False)
@@ -106,30 +136,23 @@ def register_school():
         return redirect(url_for('login'))
     return render_template('register_school.html', title='Register Your School', form=form)
 
+#route for registering a classroom to a school, check if the school_id is present in the database
 @app.route('/register_classroom', methods=['POST', 'GET'], strict_slashes=False)
 def register_classroom():
-    """register route"""
+    """register classroom route"""
     form = RegisterClassroomForm()
     if form.validate_on_submit():
-        classroom = Classroom(name=form.name.data)
-        db_storage.new(classroom)
-        db_storage.save()
-        flash(f'Classroom created for {form.name.data}!', 'success')
-        return redirect(url_for('admin'))
+        school = db_storage.get(School, form.school_id.data)
+        if school:
+            classroom = Classroom(name=form.name.data, school=school)
+            db_storage.new(classroom)
+            db_storage.save()
+            flash(f'Classroom created for {form.name.data}!', 'success')
+            return redirect(url_for('admin'))
+        else:
+            flash(f'School ID not found', 'danger')
     return render_template('register_classroom.html', title='Register Classroom', form=form)
-@app.route('/delete_teacher', methods=['POST', 'GET'], strict_slashes=False)
-def delete_teacher():
-    """delete route"""
-    form = DeleteForm()
-    if form.validate_on_submit():
-        teacher = db_storage.all('Teacher')
-        for t in teacher:
-            if t.email == form.email.data:
-                db_storage.delete(t)
-                db_storage.save()
-                flash(f'Account deleted for {form.email.data}!', 'success')
-                return redirect(url_for('login'))
-    return render_template('delete_teacher.html', title='Delete Teacher', form=form)
+
 
 @app.route('/view_teacher', methods=['POST', 'GET'], strict_slashes=False)
 def view_teacher():
@@ -143,7 +166,7 @@ def post_assignment():
     """post assignment route"""
     form = PostAssignmentForm()
     if form.validate_on_submit():
-        assignment = Assignment(assignment_name=form.assignment_name.data, due_date=form.due_date.data, description=form.description.data, classroom=form.classroom.data)
+        assignment = Assignment(assignment_name=form.assignment_name.data, due_date=form.due_date.data, description=form.description.data, classroom_name=form.classroom_name.data)
         db_storage.new(assignment)
         db_storage.save()
         flash(f'Assignment created for {form.assignment_name.data}!', 'success')

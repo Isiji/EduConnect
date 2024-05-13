@@ -16,13 +16,11 @@ class Teacher(BaseModel, Base):
     school_id = Column(String(128), ForeignKey('schools.id'), nullable=False)
     school = relationship('School', back_populates='teachers')
 
-    def __init__(self, first_name, last_name, email, password, image_file='default.jpg'):
+
+    def __init__(self, *args, **kwargs):
         """initializes the teacher"""
-        self.first_name = first_name
-        self.last_name = last_name
-        self.email = email
-        self.image_file = image_file
-        self.password = password
+        super().__init__(*args, **kwargs)
+
     def __str__(self):
         """string representation of the teacher"""
         return "Teacher: {} {}".format(self.id, self.first_name, self.last_name,self.email)
