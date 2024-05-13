@@ -166,7 +166,7 @@ def post_assignment():
     """post assignment route"""
     form = PostAssignmentForm()
     if form.validate_on_submit():
-        assignment = Assignment(assignment_name=form.assignment_name.data, due_date=form.due_date.data, description=form.description.data, classroom_name=form.classroom_name.data)
+        assignment = Assignment(assignment_name=form.assignment_name.data, due_date=form.due_date.data, description=form.description.data, classroom_id=form.classroom_id.data)
         db_storage.new(assignment)
         db_storage.save()
         flash(f'Assignment created for {form.assignment_name.data}!', 'success')

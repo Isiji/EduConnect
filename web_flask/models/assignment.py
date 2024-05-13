@@ -9,11 +9,11 @@ import uuid
 class Assignment(BaseModel, Base):
     """Assignment model"""
     __tablename__ = 'assignments'
-    assignment_id = Column(String(128), nullable=False, primary_key=True, unique=True, default='AS' + str(uuid.uuid4())[:6], index=True)
+    id = Column(String(128), nullable=False, primary_key=True, unique=True, default='AS' + str(uuid.uuid4())[:6], index=True)
     assignment_name = Column(String(128), nullable=False)
     due_date = Column(String(128), nullable=False)
     description = Column(String(128), nullable=False)
-    classroom_id = Column(String(128), ForeignKey('classes.id'), nullable=False, index=True)    
+    classroom_id = Column(String(128), ForeignKey('classrooms.id'), nullable=False)
     classroom = relationship('Classroom', back_populates='assignments')
     def __init__(self, *args, **kwargs):
         """initializes the assignment"""

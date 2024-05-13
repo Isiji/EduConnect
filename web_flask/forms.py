@@ -124,7 +124,7 @@ class PostAssignmentForm(FlaskForm):
     assignment_name = StringField('Assignment Name', validators=[DataRequired()])
     due_date = StringField('Due Date', validators=[DataRequired()])
     description = StringField('Description', validators=[DataRequired()])
-    classroom_name = StringField('Classroom', validators=[DataRequired()])
+    classroom_id = StringField('Classroom', validators=[DataRequired()])
     submit = SubmitField('Post Assignment')
 
     #class to view all students

@@ -38,16 +38,16 @@
                             {% endif %}
                         </div>
                         <div class="col-md-6">
-                            {{ form.classroom_name.label(class="form-control-label") }}
-                            {% if form.classroom_name.errors %}
-                                {{ form.classroom_name(class="form-control form-control-lg is-invalid") }}
+                            {{ form.classroom_id.label(class="form-control-label") }}
+                            {% if form.classroom_id.errors %}
+                                {{ form.classroom_id(class="form-control form-control-lg is-invalid") }}
                                 <div class="invalid-feedback">
-                                    {% for error in form.classroom_name.errors %}
+                                    {% for error in form.classroom_id.errors %}
                                         <span>{{ error }}</span>
                                     {% endfor %}
                                 </div>
                             {% else %}
-                                {{ form.classroom_name(class="form-control form-control-lg") }}
+                                {{ form.classroom_id(class="form-control form-control-lg") }}
                             {% endif %}
                         </div>
 
