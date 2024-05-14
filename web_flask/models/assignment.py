@@ -13,7 +13,7 @@ class Assignment(BaseModel, Base):
     assignment_name = Column(String(128), nullable=False)
     due_date = Column(String(128), nullable=False)
     description = Column(String(128), nullable=False)
-    classroom_id = Column(String(128), ForeignKey('classrooms.id'), nullable=False)
+    classroom_id = Column(String(128), ForeignKey('classes.id'), nullable=False)
     classroom = relationship('Classroom', back_populates='assignments')
     def __init__(self, *args, **kwargs):
         """initializes the assignment"""
@@ -22,4 +22,3 @@ class Assignment(BaseModel, Base):
     def __str__(self):
         """string representation of the assignment"""
         return "Assignment: {}".format(self.name)
-    

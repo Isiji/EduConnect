@@ -2,7 +2,7 @@
 """flask application"""
 
 from flask import Flask, session, render_template, request, url_for, redirect
-from forms import LoginForm, RegistrationForm, RegisterSchoolForm, DeleteForm, RegisterClassroomForm, PostAssignmentForm, DeleteClassroomForm
+from forms import LoginForm, RegistrationForm, RegisterSchoolForm, DeleteForm, RegisterClassroomForm, PostAssignmentForm, DeleteClassroomForm, DeleteAssignmentForm, SubmitAssignmentForm
 from flask import flash
 from models.engine.storage import DBStorage
 from models.admin_model import Admin
@@ -12,8 +12,10 @@ from models.student import Student
 from models.school import School
 from models.classroom import Classroom
 from models.assignment import Assignment
+from models.parent import Parent
 from flask_login import  LoginManager, login_user, current_user, logout_user, login_required
 import logging
+from flask_paginate import Pagination, get_page_args
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret_key'
@@ -122,7 +124,23 @@ def register_student():
             flash(f'School ID not found', 'danger')
     return render_template('register_student.html', title='Register Student', form=form)
 
-
+#create route for registration of a parent to a school, check if the school_id is present in the database
+@app.route('/register_parent', methods=['POST', 'GET'], strict_slashes=False)
+def register_parent():
+    """register parent"""
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        hashed_password = bycrpt.generate_password_hash(form.password.data).decode('utf-8')
+        school = db_storage.get(School, form.school_id.data)
+        if school:
+            parent = Parent(email=form.email.data, password=hashed_password, first_name=form.first_name.data, last_name=form.last_name.data, school=school)
+            db_storage.new(parent)
+            db_storage.save()
+            flash(f'Account created for {form.email.data}!', 'success')
+            return redirect(url_for('login'))
+        else:
+            flash(f'School ID not found', 'danger')
+    return render_template('register_parent.html', title='Register Parent', form=form)
 @app.route('/register_school', methods=['POST', 'GET'], strict_slashes=False)
 def register_school():
     """register route"""
@@ -135,6 +153,12 @@ def register_school():
         flash(f'Account created for {form.name.data}!', 'success')
         return redirect(url_for('login'))
     return render_template('register_school.html', title='Register Your School', form=form)
+
+#a route for general registration of a parent or student
+@app.route('/register', methods=['POST', 'GET'], strict_slashes=False)
+def register():
+    """register route"""
+    return render_template('registrationpage.html')
 
 #route for registering a classroom to a school, check if the school_id is present in the database
 @app.route('/register_classroom', methods=['POST', 'GET'], strict_slashes=False)
@@ -154,13 +178,32 @@ def register_classroom():
     return render_template('register_classroom.html', title='Register Classroom', form=form)
 
 
+#create a route for viewing all the teachers and paginate it
 @app.route('/view_teacher', methods=['POST', 'GET'], strict_slashes=False)
 def view_teacher():
-    """view route"""
-    if request.method == 'GET':
-        teachers_data = db_storage.all(Teacher)
-        teachers = list(teachers_data.values())
-        return render_template('view_teacher.html', title='View Teacher', teachers=teachers)
+    """view teachers paginated route"""
+    page, per_page, offset = get_page_args(page_parameter='page', per_page_parameter='per_page')
+    teachers_data = db_storage.all(Teacher)
+    teachers = list(teachers_data.values())
+    pagination = Pagination(page=page, per_page=per_page, total=len(teachers), css_framework='bootstrap4')
+    return render_template('view_teacher.html', title='View Teacher', teachers=teachers[offset: offset + per_page], page=page, per_page=per_page, pagination=pagination)
+
+#route for submitting assignments, check if the assignment_id is present in the database
+@app.route('/submit_assignment', methods=['POST', 'GET'], strict_slashes=False)
+def submit_assignment():
+    """submit assignment route"""
+    form = SubmitAssignmentForm()
+    if form.validate_on_submit():
+        assignment = db_storage.get(Assignment, form.assignment_id.data)
+        if assignment:
+            assignment.student_id = form.student_id.data
+            assignment.submission = form.submission.data
+            db_storage.save()
+            flash(f'Assignment submitted for {form.assignment_id.data}!', 'success')
+            return redirect(url_for('student'))
+        else:
+            flash(f'Assignment ID not found', 'danger')
+    return render_template('submit_assignment.html', title='Submit Assignment', form=form)
 @app.route('/post_assignment', methods=['POST', 'GET'], strict_slashes=False)
 def post_assignment():
     """post assignment route"""
@@ -213,6 +256,21 @@ def delete_classroom():
                 flash(f'Classroom deleted for {form.name.data}!', 'success')
                 return redirect(url_for('admin'))
     return render_template('delete_classroom.html', title='Delete Classroom', form=form)
+
+#a route for deleting the assignment, use the delete method from the storage class to delete the assignment using the assignment id
+@app.route('/delete_assignment', methods=['POST', 'GET'], strict_slashes=False)
+def delete_assignment():
+    """delete assignment route"""
+    form = DeleteAssignmentForm()
+    if form.validate_on_submit():
+        assignment = db_storage.all('Assignment')
+        for a in assignment:
+            if a.id == form.id.data:
+                db_storage.delete(a)
+                db_storage.save()
+                flash(f'Assignment deleted for {form.id.data}!', 'success')
+                return redirect(url_for('teacher'))
+    return render_template('delete_assignment.html', title='Delete Assignment', form=form)
 
 @app.route('/logout', methods=['POST', 'GET'], strict_slashes=False)
 def logout():

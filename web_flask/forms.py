@@ -135,3 +135,17 @@ class ViewStudentsForm(FlaskForm):
 class DeleteClassroomForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     submit = SubmitField('Delete Classroom')
+
+#create a function to delete an assignment
+class DeleteAssignmentForm(FlaskForm):
+    assignment_id = StringField('Assignment ID', validators=[DataRequired()])
+    submit = SubmitField('Delete Assignment')
+
+    #class to submit assignment
+class SubmitAssignmentForm(FlaskForm):
+    assignment_id = StringField('Assignment ID', validators=[DataRequired()])
+    student_id = StringField('Student ID', validators=[DataRequired()])
+    assignment_file = StringField('Assignment File', validators=[DataRequired()])
+    submit = SubmitField('Submit Assignment')
+
+    #class to register a student
