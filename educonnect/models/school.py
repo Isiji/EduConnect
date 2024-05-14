@@ -1,11 +1,9 @@
 #!/usr/bin/python3
 """School module for the school model"""
-import models
 from sqlalchemy import Column, String, ForeignKey, Integer, Index
 from sqlalchemy.orm import relationship
-from models.base_model import BaseModel, Base
 import uuid
-
+from educonnect.models.base_model import BaseModel, Base
 
 class School(BaseModel, Base):
     """School model"""

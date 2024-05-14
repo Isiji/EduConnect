@@ -3,8 +3,8 @@
 """Class module for the class model"""
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
-from models.base_model import BaseModel, Base
 import uuid
+from educonnect.models.base_model import BaseModel, Base
 class Classroom(BaseModel, Base):
     """Class model"""
     __tablename__ = 'classes'

@@ -3,8 +3,8 @@
 
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
-from models.base_model import BaseModel, Base
-
+import uuid
+from educonnect.models.base_model import BaseModel, Base
 class Marks(BaseModel, Base):
     """Marks model"""
     __tablename__ = 'marks'

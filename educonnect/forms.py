@@ -18,7 +18,7 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Sign Up')
 
     def validate_email(self, email):
-        from models.engine.storage import DBStorage
+        from engine.storage import DBStorage
         db_storage = DBStorage()
         from models.admin_model import Admin
         from models.teacher import Teacher
@@ -58,7 +58,7 @@ class RegisterClassroomForm(FlaskForm):
     school_id = StringField('School ID', validators=[DataRequired()])
     submit = SubmitField('Register Class')
     def validate_name(self, name):
-        from models.engine.storage import DBStorage
+        from engine.storage import DBStorage
         db_storage = DBStorage()
         from models.classroom import Classroom
         classrooms = db_storage.all(Classroom)
@@ -98,7 +98,7 @@ class RegisterSchoolForm(FlaskForm):
     submit = SubmitField('Register School')
 
     def validate_email(self, email):
-        from models.engine.storage import DBStorage
+        from engine.storage import DBStorage
         db_storage = DBStorage()
         from models.admin_model import Admin
         from models.teacher import Teacher

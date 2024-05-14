@@ -2,18 +2,16 @@
 """flask application"""
 from flask import Flask, render_template, url_for, flash, redirect, session
 from educonnect import app, bycrpt, db_storage
-from models.admin_model import Admin
-from models.teacher import Teacher
-from models.student import Student
-from models.school import School
-from models.classroom import Classroom
-from models.assignment import Assignment
-from models.parent import Parent
-from forms import RegistrationForm, LoginForm, SubmitAssignmentForm, PostAssignmentForm, RegisterClassroomForm, DeleteForm, DeleteAssignmentForm, DeleteClassroomForm, RegisterSchoolForm
+from educonnect.forms import RegistrationForm, LoginForm, SubmitAssignmentForm, PostAssignmentForm, RegisterClassroomForm, DeleteForm, DeleteAssignmentForm, DeleteClassroomForm, RegisterSchoolForm
 from flask_paginate import Pagination, get_page_args
 import logging
-
-
+from educonnect.models.admin_model import Admin
+from educonnect.models.teacher import Teacher
+from educonnect.models.student import Student
+from educonnect.models.school import School
+from educonnect.models.classroom import Classroom
+from educonnect.models.assignment import Assignment
+from educonnect.models.parent import Parent
 
 @app.route('/')
 @app.route('/home', methods=['POST', 'GET'], strict_slashes=False)

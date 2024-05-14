@@ -1,7 +1,7 @@
 #!/usr/bin/python3 
 from flask import Flask, session, render_template, request, url_for, redirect
 from flask_bcrypt import Bcrypt
-from models.engine.storage import DBStorage
+from educonnect.engine.storage import DBStorage
 
 
 app = Flask(__name__)

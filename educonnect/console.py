@@ -1,18 +1,16 @@
 #!/usr/bin/python3
 """this the main console for the school project"""
 import cmd
-import models
-from models.engine.storage import DBStorage
-import models.engine
-import models.engine.storage
-from models.teacher import Teacher
-from models.student import Student
-from models.classroom import Classroom
-from models.base_model import BaseModel
-from models.school import School
-from models.admin_model import Admin
+from educonnect.engine.storage import DBStorage
+import educonnect.engine.storage as storage
+from teacher import Teacher
+from student import Student
+from classroom import Classroom
+from base_model import BaseModel
+from school import School
+from admin_model import Admin
 import shlex
-from models.admin_session import admin_session
+from admin_session import admin_session
 #classes = {"Teacher": Teacher, "Student": Student, "School": School, "Classroom": Classroom} 
 
 
@@ -83,8 +81,8 @@ class EduConnectCommand(cmd.Cmd):
         if args[0] in self.classes:
             if len(args) > 1:
                 key = args[0] + "." + args[1]
-                if key in models.engine.storage.DBStorage().all():
-                    print(models.engine.storage.DBStorage().all()[key])
+                if key in storage.DBStorage().all():
+                    print(storage.DBStorage().all()[key])
                 else:
                     print("** no instance found **")
             else:
@@ -102,9 +100,9 @@ class EduConnectCommand(cmd.Cmd):
         elif args[0] in self.classes:
             if len(args) > 1:
                 key = args[0] + "." + args[1]
-                if key in models.engine.DBStorage().all():
-                    models.engine.DBStorage().all().pop(key)
-                    models.engine.DBStorage().save()
+                if key in DBStorage().all():
+                    DBStorage().all().pop(key)
+                    DBStorage().save()
                 else:
                     print("** no instance found **")
             else:
@@ -119,9 +117,9 @@ class EduConnectCommand(cmd.Cmd):
         args = shlex.split(arg)
         obj_list = []
         if len(args) == 0:
-            obj_dict = models.engine.storage.DBStorage().all()
+            obj_dict = storage.DBStorage().all()
         elif args[0] in self.classes:
-            obj_dict = models.engine.storage.DBStorage().all(self.classes[args[0]])
+            obj_dict = storage.DBStorage().all(self.classes[args[0]])
         else:
             print("** class doesn't exist **")
             return False
@@ -144,7 +142,7 @@ class EduConnectCommand(cmd.Cmd):
         elif args[0] in self.classes:
             if len(args) > 1:
                 k = args[0] + "." + args[1]
-                if k in models.engine.storage.DBStorage().all():
+                if k in storage.DBStorage().all():
                     if len(args) > 2:
                         if len(args) > 3:
                             if args[0] == "Place":
@@ -158,8 +156,8 @@ class EduConnectCommand(cmd.Cmd):
                                         args[3] = float(args[3])
                                     except:
                                         args[3] = 0.0
-                            setattr(models.engine.storage.DBStorage().all()[k], args[2], args[3])
-                            models.engine.storage.DBStorage().all()[k].save()
+                            setattr(storage.DBStorage().all()[k], args[2], args[3])
+                            storage.DBStorage().all()[k].save()
                         else:
                             print("** value missing **")
                     else:

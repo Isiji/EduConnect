@@ -3,9 +3,8 @@
 
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import sessionmaker, relationship
-from models.base_model import BaseModel, Base
 import uuid
-
+from educonnect.models.base_model import BaseModel, Base
 class Student(BaseModel, Base):
     """Student model"""
     __tablename__ = 'students'

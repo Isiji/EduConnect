@@ -3,8 +3,8 @@
 
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
-from models.base_model import BaseModel, Base
 import uuid
+from educonnect.models.base_model import BaseModel, Base
 class Parent(BaseModel, Base):
     """Parent model"""
     __tablename__ = 'parents'

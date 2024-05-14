@@ -3,10 +3,8 @@
 
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
-from models.base_model import BaseModel, Base
-from models.school import School
 import uuid
-
+from educonnect.models.base_model import BaseModel, Base
 
 class Admin(BaseModel, Base):
     """Admin model"""

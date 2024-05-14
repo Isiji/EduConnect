@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 """Teacher module for the teacher model"""
-from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 import uuid
+from educonnect.models.base_model import BaseModel, Base
 class Teacher(BaseModel, Base):
     """Teacher model"""
     __tablename__ = 'teachers'

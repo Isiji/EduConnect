@@ -2,12 +2,10 @@
 """Base model module for the base model"""
 from datetime import datetime
 import uuid
-import models
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, DateTime
-from sqlalchemy import MetaData
-import models.engine
-import models.engine.storage
+from sqlalchemy.orm import relationship
+import educonnect.engine.storage as storage
 
 time = "%Y-%m-%dT%H:%M"
 
@@ -48,8 +46,8 @@ class BaseModel:
     def save(self):
         """updates the attribute 'updated_at' with the current datetime"""
         self.updated_at = datetime.utcnow()
-        models.engine.storage.DBStorage().new(self)
-        models.engine.storage.DBStorage().save()
+        storage.DBStorage().new(self)
+        storage.DBStorage().save()
 
     def to_dict(self):
         """returns a dictionary containing all keys/values of the instance"""
@@ -65,4 +63,4 @@ class BaseModel:
 
     def delete(self):
         """delete the current instance from the storage"""
-        models.storage.delete(self)
+        storage.delete(self)

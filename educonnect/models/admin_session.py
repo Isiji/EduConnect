@@ -1,12 +1,12 @@
 #!/usr/bin/python3
 """Admin session module for the admin session model"""
 
-from models.admin_model import Admin
-from models.student import Student
-from models.teacher import Teacher
-from models.school import School
-from models.classroom import Classroom
-from models.assignment import Assignment
+from admin_model import Admin
+from student import Student
+from teacher import Teacher
+from school import School
+from classroom import Classroom
+from assignment import Assignment
 
 #create a function that enters into admin session and allows admin to do his functions
 def admin_session():
