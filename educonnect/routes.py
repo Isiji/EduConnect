@@ -25,6 +25,8 @@ def home():
 @app.route('/login', methods=['POST', 'GET'], strict_slashes=False)
 def login():
     """login route"""
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
     form = LoginForm()
     if form.validate_on_submit():
         user_data = {}
@@ -51,6 +53,8 @@ def login():
 @app.route('/register_admin', methods=['POST', 'GET'], strict_slashes=False)
 def register_admin():
     """register admin"""
+    if current_user.is_authenticated:
+        return redirect(url_for('admin'))
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bycrpt.generate_password_hash(form.password.data).decode('utf-8')
@@ -69,6 +73,8 @@ def register_admin():
 @app.route('/register_teacher', methods=['POST', 'GET'], strict_slashes=False)
 def register_teacher():
     """register teacher"""
+    if current_user.is_authenticated:
+        return redirect(url_for('teacher'))
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bycrpt.generate_password_hash(form.password.data).decode('utf-8')
@@ -103,6 +109,8 @@ def delete_teacher():
 @app.route('/register_student', methods=['POST', 'GET'], strict_slashes=False)
 def register_student():
     """register student"""
+    if current_user.is_authenticated:
+        return redirect(url_for('student'))
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bycrpt.generate_password_hash(form.password.data).decode('utf-8')
@@ -121,6 +129,8 @@ def register_student():
 @app.route('/register_parent', methods=['POST', 'GET'], strict_slashes=False)
 def register_parent():
     """register parent"""
+    if current_user.is_authenticated:
+        return redirect(url_for('parent'))
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bycrpt.generate_password_hash(form.password.data).decode('utf-8')
