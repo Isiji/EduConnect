@@ -1,26 +1,19 @@
 #!/usr/bin/python3
 """flask application"""
-
-from flask import Flask, session, render_template, request, url_for, redirect
-from forms import LoginForm, RegistrationForm, RegisterSchoolForm, DeleteForm, RegisterClassroomForm, PostAssignmentForm, DeleteClassroomForm, DeleteAssignmentForm, SubmitAssignmentForm
-from flask import flash
+from flask import Flask, render_template, url_for, flash, redirect, session
+from educonnect import app, bycrpt, db_storage
 from models.engine.storage import DBStorage
 from models.admin_model import Admin
-from flask_bcrypt import Bcrypt
 from models.teacher import Teacher
 from models.student import Student
 from models.school import School
 from models.classroom import Classroom
 from models.assignment import Assignment
 from models.parent import Parent
-from flask_login import  LoginManager, login_user, current_user, logout_user, login_required
-import logging
+from forms import RegistrationForm, LoginForm, SubmitAssignmentForm, PostAssignmentForm, RegisterClassroomForm, DeleteForm, DeleteAssignmentForm, DeleteClassroomForm, RegisterSchoolForm
 from flask_paginate import Pagination, get_page_args
+import logging
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'secret_key'
-bycrpt = Bcrypt(app)
-db_storage = DBStorage()
 
 
 @app.route('/')
@@ -329,5 +322,3 @@ def parent():
 def account():
     """account route"""
     return render_template('account.html')
-if __name__ == '__main__':
-    app.run(host='localhost', port=5000, debug=True)

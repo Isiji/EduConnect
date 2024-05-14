@@ -1,9 +1,7 @@
 #!/usr/bin/python3
 """Database storage module"""
-import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
-from models.base_model import Base
 from models.teacher import Teacher
 from models.student import Student
 from models.school import School
@@ -13,6 +11,7 @@ from models.parent import Parent
 from models.marks import Marks
 from models.assignment import Assignment
 from models.subject import Subject
+from models.base_model import Base
 import sys
 from sqlalchemy.exc import SQLAlchemyError
 class DBStorage:
