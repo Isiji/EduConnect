@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 """flask application"""
-from flask import Flask, render_template, url_for, flash, redirect, session
+import os
+from flask import Flask, render_template, url_for, flash, redirect, session, request
 from educonnect import app, bycrpt, db_storage
-from educonnect.forms import RegistrationForm, LoginForm, SubmitAssignmentForm, PostAssignmentForm, RegisterClassroomForm, DeleteForm, DeleteAssignmentForm, DeleteClassroomForm, RegisterSchoolForm
+from educonnect.forms import RegistrationForm, LoginForm, SubmitAssignmentForm, PostAssignmentForm, RegisterClassroomForm, DeleteForm, DeleteAssignmentForm, DeleteClassroomForm, RegisterSchoolForm, UpdateAccountForm
 from flask_paginate import Pagination, get_page_args
 import logging
 from educonnect.models.admin_model import Admin
@@ -15,6 +16,8 @@ from educonnect.models.parent import Parent
 from educonnect.models.loader import load_user
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.security import check_password_hash
+from PIL import Image
+import secrets
 @app.route('/')
 @app.route('/home', methods=['POST', 'GET'], strict_slashes=False)
 def home():
@@ -326,8 +329,36 @@ def student():
 def parent():
     """parent route"""
     return render_template('parent.html')
+
+def save_picture(form_picture):
+    """save picture"""
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fn = random_hex + f_ext
+    picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
+    output_size = (125, 125)
+    i = Image.open(form_picture)
+    i.thumbnail(output_size)
+    i.save(picture_path)
+    return picture_fn
+
 @app.route('/account', methods=['POST', 'GET'], strict_slashes=False)
 @login_required
 def account():
-    """account route"""
-    return render_template('account.html')
+    form = UpdateAccountForm()
+    if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            current_user.image_file = picture_file
+        current_user.first_name = form.first_name.data
+        current_user.last_name = form.last_name.data
+        current_user.email = form.email.data
+        db_storage.save()
+        flash('Your account has been updated!', 'success')
+        return redirect(url_for('account'))
+    elif request.method == 'GET':
+        form.first_name.data = current_user.first_name
+        form.last_name.data = current_user.last_name
+        form.email.data = current_user.email
+    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+    return render_template('account.html', title='Account', image_file=image_file, form=form)
