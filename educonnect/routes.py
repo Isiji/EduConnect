@@ -34,6 +34,7 @@ def login():
             if user.email == form.email.data and bycrpt.check_password_hash(user.password, form.password.data):
                 session['email'] = form.email.data
                 session['password'] = form.password.data
+                login_user(user, remember=form.remember.data)
                 if isinstance(user, Admin):
                     return redirect(url_for('admin'))
                 elif isinstance(user, Teacher):
@@ -44,6 +45,9 @@ def login():
                     return redirect(url_for('parent'))
                 elif isinstance(user, School):
                     return redirect(url_for('school'))
+        flash('Login Unsuccessful. Please check email and password', 'danger')
+    return render_template('login.html', title='Login', form=form)
+
 @app.route('/register_admin', methods=['POST', 'GET'], strict_slashes=False)
 def register_admin():
     """register admin"""
