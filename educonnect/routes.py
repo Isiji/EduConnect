@@ -25,8 +25,6 @@ def home():
 @app.route('/login', methods=['POST', 'GET'], strict_slashes=False)
 def login():
     """login route"""
-    if current_user.is_authenticated:
-        return redirect(url_for('home'))
     form = LoginForm()
     if form.validate_on_submit():
         user_data = {}
@@ -329,6 +327,7 @@ def parent():
     """parent route"""
     return render_template('parent.html')
 @app.route('/account', methods=['POST', 'GET'], strict_slashes=False)
+@login_required
 def account():
     """account route"""
     return render_template('account.html')

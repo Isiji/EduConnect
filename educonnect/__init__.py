@@ -9,6 +9,7 @@ app.config['SECRET_KEY'] = 'secret_key'
 bycrpt = Bcrypt(app)
 db_storage = DBStorage()
 login_manager = LoginManager(app)
+login_manager.login_view = 'login'
 
 from educonnect import routes, models
 
