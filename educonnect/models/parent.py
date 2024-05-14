@@ -5,7 +5,8 @@ from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 import uuid
 from educonnect.models.base_model import BaseModel, Base
-class Parent(BaseModel, Base):
+from flask_login import UserMixin
+class Parent(BaseModel, Base, UserMixin):
     """Parent model"""
     __tablename__ = 'parents'
     parent_id = Column(String(128), nullable=False, primary_key=True, unique=True, default='PA' + str(uuid.uuid4())[:6])

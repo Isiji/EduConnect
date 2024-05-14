@@ -5,8 +5,8 @@ from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 import uuid
 from educonnect.models.base_model import BaseModel, Base
-
-class Admin(BaseModel, Base):
+from flask_login import UserMixin
+class Admin(BaseModel, Base, UserMixin):
     """Admin model"""
     __tablename__ = 'admins'
     id = Column(String(128), nullable=False, primary_key=True, unique=True, default='AD' + str(uuid.uuid4())[:6])

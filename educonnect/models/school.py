@@ -4,8 +4,8 @@ from sqlalchemy import Column, String, ForeignKey, Integer, Index
 from sqlalchemy.orm import relationship
 import uuid
 from educonnect.models.base_model import BaseModel, Base
-
-class School(BaseModel, Base):
+from flask_login import UserMixin
+class School(BaseModel, Base, UserMixin):
     """School model"""
     __tablename__ = 'schools'
     id = Column(String(128), nullable=False, primary_key=True, unique=True, default='SC' + str(uuid.uuid4())[:6])

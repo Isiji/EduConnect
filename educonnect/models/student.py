@@ -5,7 +5,8 @@ from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import sessionmaker, relationship
 import uuid
 from educonnect.models.base_model import BaseModel, Base
-class Student(BaseModel, Base):
+from flask_login import UserMixin
+class Student(BaseModel, Base, UserMixin):
     """Student model"""
     __tablename__ = 'students'
     id = Column(String(128), nullable=False, primary_key=True, unique=True, default='ST' + str(uuid.uuid4())[:6])

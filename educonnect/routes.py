@@ -12,21 +12,23 @@ from educonnect.models.school import School
 from educonnect.models.classroom import Classroom
 from educonnect.models.assignment import Assignment
 from educonnect.models.parent import Parent
-
+from educonnect.models.loader import load_user
+from flask_login import login_user, current_user, logout_user, login_required
+from werkzeug.security import check_password_hash
 @app.route('/')
 @app.route('/home', methods=['POST', 'GET'], strict_slashes=False)
 def home():
     """home route"""
     return render_template('home.html')
 
-#create a login route that first checks if the user is in the database then directs the user to the specific page
+#admin registration route that checks id school_id entered is present in the database, then creates a new admin and assigns to that school
 @app.route('/login', methods=['POST', 'GET'], strict_slashes=False)
 def login():
     """login route"""
     form = LoginForm()
     if form.validate_on_submit():
         user_data = {}
-        for model_class in [Admin, Teacher, Student, School]:
+        for model_class in [Admin, Teacher, Student, Parent, School]:
             user_data.update(db_storage.all(model_class))
         for user in user_data.values():
             if user.email == form.email.data and bycrpt.check_password_hash(user.password, form.password.data):
@@ -38,13 +40,10 @@ def login():
                     return redirect(url_for('teacher'))
                 elif isinstance(user, Student):
                     return redirect(url_for('student'))
+                elif isinstance(user, Parent):
+                    return redirect(url_for('parent'))
                 elif isinstance(user, School):
-                    session['school_id'] = user.id
-                    print("school id is stored in session:", session['school_id'])
                     return redirect(url_for('school'))
-        flash('Login Unsuccessful. Please check email and password', 'danger')
-    return render_template('login.html', title='Login', form=form)
-#admin registration route that checks id school_id entered is present in the database, then creates a new admin and assigns to that school
 @app.route('/register_admin', methods=['POST', 'GET'], strict_slashes=False)
 def register_admin():
     """register admin"""
