@@ -2,7 +2,6 @@
 """flask application"""
 from flask import Flask, render_template, url_for, flash, redirect, session
 from educonnect import app, bycrpt, db_storage
-from models.engine.storage import DBStorage
 from models.admin_model import Admin
 from models.teacher import Teacher
 from models.student import Student
