@@ -19,11 +19,13 @@ class DBStorage:
     __engine = None
     __session = None
 
-    def __init__(self):
+    def __init__(self,  app=None):
         """Initializes the database storage"""
-        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
-                                       .format('root', 'Password123.', 'localhost', 'EduConnect'),
-                                       pool_pre_ping=True)
+        if app is not None:
+            self.__engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'], pool_pre_ping=True)
+        else:
+            self.__engine = create_engine('mysql+mysqldb://root:Password123.@localhost/EduConnect', pool_pre_ping=True)
+        
         if 'test' in sys.argv:
             Base.metadata.drop_all(self.__engine)
         Base.metadata.create_all(self.__engine)
