@@ -6,12 +6,22 @@ from flask_login import LoginManager
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret_key'
-bycrpt = Bcrypt(app)
+bcrypt = Bcrypt(app)
 db_storage = DBStorage()
 login_manager = LoginManager(app)
-login_manager.login_view = 'login'
+login_manager.login_view = 'main.login'
 login_manager.login_message_category = 'info'
 
-from educonnect import routes, models
+from educonnect.main.routes import main
+from educonnect.school.routes import school_blueprint
+from educonnect.students.routes import students
+from educonnect.parents.routes import parents
+from educonnect.admins.routes import admins
+from educonnect.teachers.routes import teachers
 
-
+app.register_blueprint(main)
+app.register_blueprint(school_blueprint)
+app.register_blueprint(students)
+app.register_blueprint(parents)
+app.register_blueprint(admins)
+app.register_blueprint(teachers)

@@ -7,19 +7,19 @@
     <p>Here you can view the assignments</p>
     <div class="row">
         <div class="col-md-4">
-            <a href="{{url_for('view_assignment')}}" class="btn btn-primary">View Assignment</a>
+            <a href="{{url_for('main.view_assignment')}}" class="btn btn-primary">View Assignment</a>
         </div>
         <div class="col-md-4">
-            <a href="{{url_for('submit_assignment')}}" class="btn btn-success">Submit Assignment</a>
+            <a href="{{url_for('students.submit_assignment')}}" class="btn btn-success">Submit Assignment</a>
         </div>
         <div class="col-md-4">
-            <a href="{{url_for('logout')}}" class="btn btn-danger">Logout</a>
+            <a href="{{url_for('main.logout')}}" class="btn btn-danger">Logout</a>
         </div>
     </div>
 
     <div class="row mt-3">
         <div class="col-md-4">
-            <a href="{{url_for('account')}}" class="btn btn-primary">Account</a>
+            <a href="{{url_for('main.account')}}" class="btn btn-primary">Account</a>
         </div>
 </div>
 {%endblock%}
