@@ -41,18 +41,15 @@ To install and run Educonnect locally on your machine, follow these steps:
 
 Clone the repository:
 
-bash
-Copy code
+
 git clone https://github.com/your-username/educonnect.git
 Install dependencies:
 
-bash
-Copy code
 pip install -r requirements.txt
+
 Run the application:
 
-bash
-Copy code
+
 python app.py
 Access the application in your web browser at http://localhost:5000.
 
