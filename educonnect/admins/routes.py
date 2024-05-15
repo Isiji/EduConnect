@@ -15,13 +15,13 @@ from flask_paginate import get_page_args
 admins = Blueprint('admins', __name__)
 
 #function for the admin home page
-admins.route('/admin', methods=['POST', 'GET'], strict_slashes=False)
+@admins.route('/admin', methods=['POST', 'GET'], strict_slashes=False)
 def admin():
     """admin route"""
     return render_template('admin.html')
 
 #create route for deleting a classroom
-admins.route('/delete_classroom', methods=['POST', 'GET'], strict_slashes=False)
+@admins.route('/delete_classroom', methods=['POST', 'GET'], strict_slashes=False)
 def delete_classroom():
     """delete classroom route"""
     form = DeleteClassroomForm()
@@ -35,18 +35,9 @@ def delete_classroom():
                 return redirect(url_for('admins.admin'))
     return render_template('delete_classroom.html', title='Delete Classroom', form=form)
 
-#create a route for viewing all the teachers and paginate it
-admins.route('/view_teacher', methods=['POST', 'GET'], strict_slashes=False)
-def view_teacher():
-    """view teachers paginated route"""
-    page, per_page, offset = get_page_args(page_parameter='page', per_page_parameter='per_page')
-    teachers_data = db_storage.all(Teacher)
-    teachers = list(teachers_data.values())
-    pagination = Pagination(page=page, per_page=per_page, total=len(teachers), css_framework='bootstrap4')
-    return render_template('view_teacher.html', title='View Teacher', teachers=teachers[offset: offset + per_page], page=page, per_page=per_page, pagination=pagination)
 
 #route for registering a classroom to a school, check if the school_id is present in the database
-admins.route('/register_classroom', methods=['POST', 'GET'], strict_slashes=False)
+@admins.route('/register_classroom', methods=['POST', 'GET'], strict_slashes=False)
 def register_classroom():
     """register classroom route"""
     form = RegisterClassroomForm()
@@ -63,7 +54,7 @@ def register_classroom():
     return render_template('register_classroom.html', title='Register Classroom', form=form)
 
 #create a route that allows the user to delete a teacher from the database, use the delete method from the storage class to delete the teacher
-admins.route('/delete_teacher', methods=['POST', 'GET'], strict_slashes=False)
+@admins.route('/delete_teacher', methods=['POST', 'GET'], strict_slashes=False)
 def delete_teacher():
     """delete route"""
     form = DeleteForm()
@@ -78,7 +69,7 @@ def delete_teacher():
     return render_template('delete_teacher.html', title='Delete Teacher', form=form)
 
 #create a route that registers a teacher to a school, check if the school_id is present in the database
-admins.route('/register_teacher', methods=['POST', 'GET'], strict_slashes=False)
+@admins.route('/register_teacher', methods=['POST', 'GET'], strict_slashes=False)
 def register_teacher():
     """register teacher"""
     if current_user.is_authenticated:

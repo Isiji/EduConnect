@@ -20,13 +20,13 @@ class RegisterSchoolForm(FlaskForm):
     submit = SubmitField('Register School')
 
     def validate_email(self, email):
-        from engine.storage import DBStorage
+        from educonnect.engine.storage import DBStorage
         db_storage = DBStorage()
-        from models.admin_model import Admin
-        from models.teacher import Teacher
-        from models.student import Student
-        from models.parent import Parent
-        from models.school import School
+        from educonnect.models.admin_model import Admin
+        from educonnect.models.teacher import Teacher
+        from educonnect.models.student import Student
+        from educonnect.models.parent import Parent
+        from educonnect.models.school import School
 
         print("debug point 1")
         user_data = {}
@@ -57,11 +57,11 @@ class RegistrationForm(FlaskForm):
     def validate_email(self, email):
         from engine.storage import DBStorage
         db_storage = DBStorage()
-        from models.admin_model import Admin
-        from models.teacher import Teacher
-        from models.student import Student
-        from models.parent import Parent
-        from models.school import School
+        from educonnect.models.admin_model import Admin
+        from educonnect.models.teacher import Teacher
+        from educonnect.models.student import Student
+        from educonnect.models.parent import Parent
+        from educonnect.models.school import School
 
         print("debug point 1")
         user_data = {}

@@ -63,7 +63,7 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Sign Up')
 
     def validate_email(self, email):
-        from engine.storage import DBStorage
+        from educonnect.engine.storage import DBStorage
         db_storage = DBStorage()
         from models.admin_model import Admin
         from models.teacher import Teacher

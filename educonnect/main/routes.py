@@ -166,3 +166,12 @@ def register_student():
             flash(f'School ID not found', 'danger')
     return render_template('register_student.html', title='Register Student', form=form)
 
+#create a route for viewing all the teachers and paginate it
+@main.route('/view_teacher', methods=['POST', 'GET'], strict_slashes=False)
+def view_teacher():
+    """view teachers paginated route"""
+    page, per_page, offset = get_page_args(page_parameter='page', per_page_parameter='per_page')
+    teachers_data = db_storage.all(Teacher)
+    teachers = list(teachers_data.values())
+    pagination = Pagination(page=page, per_page=per_page, total=len(teachers), css_framework='bootstrap4')
+    return render_template('view_teacher.html', title='View Teacher', teachers=teachers[offset: offset + per_page], page=page, per_page=per_page, pagination=pagination)
