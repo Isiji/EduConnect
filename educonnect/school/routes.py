@@ -44,6 +44,7 @@ def register_school():
         return redirect(url_for('main.login'))
     return render_template('register_school.html', title='Register Your School', form=form)
 
+
 @school_blueprint.route('/register_admin', methods=['POST', 'GET'], strict_slashes=False)
 def register_admin():
     """register admin"""

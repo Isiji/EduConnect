@@ -14,6 +14,7 @@ from educonnect.models.assignment import Assignment
 from educonnect.main.forms import RegistrationForm, LoginForm, UpdateAccountForm
 from educonnect import db_storage
 from educonnect.main.utils import save_picture
+from flask_paginate import Pagination, get_page_args
 
 
 main = Blueprint('main', __name__)
@@ -31,6 +32,7 @@ def login():
                 session['email'] = form.email.data
                 session['password'] = form.password.data
                 login_user(user, remember=form.remember.data)
+                
                 if isinstance(user, Admin):
                     return redirect(url_for('admins.admin'))
                 elif isinstance(user, Teacher):
@@ -40,6 +42,7 @@ def login():
                 elif isinstance(user, Parent):
                     return redirect(url_for('parents.parent'))
                 elif isinstance(user, School):
+                    session['school_id'] = user.id
                     return redirect(url_for('school.school'))
         flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('login.html', title='Login', form=form)
