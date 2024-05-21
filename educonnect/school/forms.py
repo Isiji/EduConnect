@@ -40,22 +40,18 @@ class RegisterSchoolForm(FlaskForm):
             if user.email == email.data:
                 raise ValidationError('That email is taken. Please choose a different one.')
 
-class RegistrationForm(FlaskForm):
-    first_name = StringField('First Name',
-                           validators=[DataRequired(), Length(min=2, max=20)])
-    last_name = StringField('Last Name',
-                       validators=[DataRequired(), Length(min=2, max=20)])
 
-    email = StringField('Email',
-                        validators=[DataRequired(), Email()])
-    school_id = StringField('School ID', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    confirm_password = PasswordField('Confirm Password',
-                                     validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Sign Up')
+#function for registering the admin
+class RegisterAdminForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=6)])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    first_name = StringField('First Name', validators=[DataRequired()])
+    last_name = StringField('Last Name', validators=[DataRequired()])
+    submit = SubmitField('Register')
 
     def validate_email(self, email):
-        from engine.storage import DBStorage
+        from educonnect.engine.storage import DBStorage
         db_storage = DBStorage()
         from educonnect.models.admin_model import Admin
         from educonnect.models.teacher import Teacher

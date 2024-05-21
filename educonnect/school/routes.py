@@ -6,7 +6,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 from educonnect import bcrypt
 from educonnect.models.school import School
 from educonnect.models.admin_model import Admin
-from educonnect.school.forms import RegisterSchoolForm, RegistrationForm
+from educonnect.school.forms import RegisterSchoolForm, RegisterAdminForm
 from educonnect import db_storage
 import logging
 
@@ -46,21 +46,21 @@ def register_school():
 
 
 @school_blueprint.route('/register_admin', methods=['POST', 'GET'], strict_slashes=False)
+@login_required
 def register_admin():
-    """register admin"""
-    if current_user.is_authenticated:
-        return redirect(url_for('admins.admin'))
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        school = db_storage.get(School, form.school_id.data)
-        if school:
+    """Register admin"""
+    if isinstance(current_user, School):
+        form = RegisterAdminForm()
+        if form.validate_on_submit():
+            hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+            school = current_user  # Use the current logged-in school
             admin = Admin(email=form.email.data, password=hashed_password, first_name=form.first_name.data, last_name=form.last_name.data, school=school)
             db_storage.new(admin)
             db_storage.save()
             flash(f'Account created for {form.email.data}!', 'success')
-            return redirect(url_for('main.login'))
-        else:
-            flash(f'School ID not found', 'danger')
-    return render_template('register_admin.html', title='Register Admin', form=form)
+            return redirect(url_for('school.school'))
+        return render_template('register_admin.html', title='Register Admin', form=form)
+    else:
+        flash('Only schools can register admins', 'danger')
+        return redirect(url_for('main.login'))
 

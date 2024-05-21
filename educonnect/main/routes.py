@@ -97,10 +97,11 @@ def account():
 
 #function for the logout route
 @main.route('/logout', methods=['POST', 'GET'], strict_slashes=False)
+@login_required
 def logout():
     """logout route"""
-    session.pop('email', None)
-    session.pop('password', None)
+    logout_user()
+    session.clear()
     return redirect(url_for('main.home'))
 
 #create route for view_classsroom and use paginate to display the data
@@ -154,7 +155,7 @@ def register_parent():
 def register_student():
     """register student"""
     if current_user.is_authenticated:
-        return redirect(url_for('student.student'))
+        return redirect(url_for('students.student'))
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
